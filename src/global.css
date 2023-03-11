@@ -1,0 +1,162 @@
+@font-face {
+    font-family: "Inter";
+    src: url("../static/inter.ttf") format("ttf");
+}
+
+html * {
+    font-family: 'Inter', serif;
+}
+
+:root {
+    --color-background: rgba(216, 221, 222, 0.7);
+    --color-border: #5c6b5d;
+    --color-highlight: rgba(112, 141, 122, 0.5);
+    --color-active: #000500;
+    --text-link-color: #173b2a;
+    --inactive-text-color: rgba(65, 65, 65, 0.8);
+
+    --font-small: 20px;
+    --font-medium: 30px;
+    --font-large: 40px;
+}
+
+h1 {
+    font-size: var(--font-large);
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: var(--font-large);
+    text-transform: uppercase;
+    color: var(--inactive-text-color);
+}
+
+h3 {
+    font-size: var(--font-medium);
+    text-transform: uppercase;
+    color: var(--inactive-text-color);
+    margin: 5px;
+}
+
+body {
+    background-image: url('../static/forest_desktop.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+button:active {
+    border: 5px solid var(--color-active);
+}
+
+button:disabled {
+    color: var(--inactive-text-color);
+}
+
+.material-symbols-outlined {
+ color: var(--color-active);
+ font-size: 48px;
+ cursor: pointer;
+ font-variation-settings:
+         'FILL' 0,
+         'wght' 500,
+         'GRAD' 25,
+         'opsz' 48
+}
+
+.warning {
+    display: none;
+    color: red;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    background: var(--color-background);
+    box-shadow: 0px 0px 50px 50px var(--color-background);
+    margin: 20px;
+}
+
+.form__input, .form__button, .form__search {
+    width: 400px;
+    height: 100px;
+    outline: none;
+    font-size: var(--font-medium);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.form__button {
+    border: 5px solid var(--color-border);
+    background-color: transparent;
+}
+
+.form__search {
+    border: 2px solid var(--color-active);
+    height: auto;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.form__input {
+    border: none;
+    border-bottom: 2px solid var(--color-active);
+    background-color: transparent;
+}
+
+.text-link {
+    text-decoration: none;
+    font-size: var(--font-small);
+    text-transform: lowercase;
+    color: var(--text-link-color);
+}
+
+.icon-button {
+    background-color: transparent;
+    border: none;
+}
+
+.icon-button>input {
+    display: none;
+}
+
+.highlighted {
+    background: var(--color-highlight);
+    box-shadow: 0px 0px 10px 10px var(--color-highlight);
+}
+
+@media screen and (max-aspect-ratio: 16/9) and (max-width: 1024px) {
+    body {
+        background-size: auto;
+    }
+
+    #column1 {
+        width: 100%;
+    }
+
+    #column2 {
+        width: 0;
+        display: none;
+    }
+}
