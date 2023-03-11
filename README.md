@@ -1,6 +1,7 @@
 ## Проектная работа 1-й спринт
    
  Учебный проект по созданию мессенджера
+ 
  [![Netlify Status](https://api.netlify.com/api/v1/badges/95df56aa-29ac-488b-9ab6-055bdec6de0a/deploy-status)](https://app.netlify.com/sites/courageous-pony-83f1dc/deploys)
 ### Чеклист:
 
