@@ -16,15 +16,15 @@ const html =
             
             <label>
                 <span class="material-symbols-outlined">photo_camera</span>
-                <input style="display: none" type="file">
+                <input class="no-display" type="file">
             </label>
             
-            <input id="first_name" class="form__input" type="text" placeholder="{{abbreviate first_name}}">
-            <input id="second_name" class="form__input" type="text" placeholder="{{abbreviate second_name}}">
-            <input id="login" class="form__input" type="text" placeholder="{{abbreviate login}}">
-            <input id="email" class="form__input" type="text" placeholder="{{abbreviate email}}">
-            <input id="phone" class="form__input" type="text" placeholder="{{abbreviate phone}}">
-            <button id="signButton" class="form__button" disabled>Сохранить изменения</button>
+            <input name="first_name" class="form__input" type="text" placeholder="{{abbreviate first_name}}">
+            <input name="second_name" class="form__input" type="text" placeholder="{{abbreviate second_name}}">
+            <input name="login" class="form__input" type="text" placeholder="{{abbreviate login}}">
+            <input name="email" class="form__input" type="text" placeholder="{{abbreviate email}}">
+            <input name="phone" class="form__input" type="text" placeholder="{{abbreviate phone}}">
+            <button name="signButton" class="form__button" disabled>Сохранить изменения</button>
             <a class="text-link" href="#" onclick="window.routing.openPage('password')">изменить пароль</a>
             <a class="text-link" href="#" onclick="window.routing.openPage('chat')">назад</a>
         </form>

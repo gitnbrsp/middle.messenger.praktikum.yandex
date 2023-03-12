@@ -1,7 +1,24 @@
 import Handlebars from "handlebars";
 
-Handlebars.registerPartial('chatLink', `
-            <a class="text-link" href="#" onclick="window.routing.openPage('chat')">Назад</a>
+//Пока применил только на отдельные страницы для теста, дальше планирую написать общий класс
+Handlebars.registerPartial('warning', `
+                      <div id="warning" class="text warning">{{text}}</div>
+`);
+
+Handlebars.registerPartial('link', `
+            <a class="text-link" href="#" onclick="window.routing.openPage('{{page}}')">{{text}}</a>
+`);
+
+Handlebars.registerPartial('input', `
+                  <input name="{{name}}" class="form__input" type="{{type}}" placeholder="{{placeholder}}">
+`);
+
+Handlebars.registerPartial('button', `
+              {{#if disabled}}
+                <button name="{{name}}" class="form__button" disabled>{{text}}</button>
+              {{else}}
+                <button name="{{name}}" class="form__button" onclick="window.routing.openPage('{{page}}')">{{text}}</button>
+              {{/if}}
 `);
 
 Handlebars.registerPartial('userCard', `

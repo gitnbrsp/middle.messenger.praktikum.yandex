@@ -146,6 +146,10 @@ button:disabled {
     box-shadow: 0px 0px 10px 10px var(--color-highlight);
 }
 
+.no-display {
+    display: none;
+}
+
 @media screen and (max-aspect-ratio: 16/9) and (max-width: 1024px) {
     body {
         background-size: auto;

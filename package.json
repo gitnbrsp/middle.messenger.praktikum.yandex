@@ -11,6 +11,7 @@
     "postcss-modules": "^4.3.1"
   },
   "dependencies": {
+    "@parcel/resolver-glob": "^2.8.3",
     "cssnano": "^5.1.15",
     "express": "^4.18.2",
     "handlebars": "^4.7.7"
@@ -18,7 +19,8 @@
   "scripts": {
     "start": "parcel build src/*.html && node server.js",
     "build": "parcel build src/*.html",
-    "debug": "node server.js & parcel watch src/*.html"
+    "debug": "node server.js & parcel watch src/*.html",
+    "dev": "parcel src/index.html --port 3000"
   },
   "browserslist": [
     "defaults"

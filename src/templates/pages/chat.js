@@ -1,6 +1,8 @@
 import Handlebars from "handlebars";
 import css from "./styles/chat.css";
 
+//todo: заменить на fetch /getUsers
+
 let templateData = {
     accountData: {
         accountName: 'ivan',
@@ -132,7 +134,7 @@ let templateData = {
 
 const html =
 `    <div id="column1">
-        <section id="users_lsit">
+        <nav id="users_lsit">
                 <div>
                     {{> accountCard accountData}}
                     <input id="search"  class="form__search" placeholder="🔍 поиск ..." type="text">
@@ -142,20 +144,20 @@ const html =
                         {{> userCard this}}
                     {{/users}}
                 </ul>
-        </section>
+        </nav>
     </div>
-    <div id="column2">
+    <main id="column2">
         <section id="user_info" class="form"></section>
-        <div id="messages">
+        <section id="messages">
             <div class="form"><h2>Выберите чат</h2></div>
-        </div>
+        </section>
         <form id="message_form" class="form">
             <label class="material-symbols-outlined">attach_file
-            <input id="attachedFile" type="file" style="display: none"></label>
+            <input id="attached_file" type="file" class="no-display"></label>
             <textarea id="message_text" class="form__input" autofocus autocomplete="on"></textarea>
-            <button id="send_message" class="material-symbols-outlined">mail</button>
+            <button id="send_message" class="material-symbols-outlined" disabled>mail</button>
         </form>
-    </div>`;
+    </main>`;
 
 
 export const template = {

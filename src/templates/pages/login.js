@@ -1,33 +1,20 @@
 import Handlebars from "handlebars";
 import css from "./styles/login.css";
 
-function ValidateAccount (){
-    let login = document.querySelector('login').innerText;
-    let password = document.querySelector('password').innerText;
-
-    if (login === password === 'test'){
-        window.routing.openPage('chat')
-    }
-    else{
-        document.querySelector('#warning').setAttribute('visible', 'true')
-    }
-}
-
+// todo: basic authorization
 const html =
     `<main class="container">
         <form id="login_form" class="form">
-          <div id="warning" class="text warning">неверный логин или пароль</div>
-          <input id="login" class="form__input" type="text" placeholder="Логин">
-          <input id="password" class="form__input" type="password" placeholder="Пароль">
-          <button id="signButton" class="form__button" onclick="window.routing.openPage('chat')">Войти</button>
-          <a class="text-link" href="#" onclick="window.routing.openPage('register')">Создать аккаунт</a>  
+          {{> warning newContext text="неверный логин или пароль"}}
+          {{> input newContext placeholder="Логин" name="login" type="text"}}
+          {{> input newContext placeholder="Пароль" name="password" type="password"}}
+          {{> button newContext text="Войти" name="signButton" page="chat"}}
+          {{> link newContext text="Создать аккаунт" id="" page="register"}}
         </form>
     </main>`;
 
 export const template = {
     template: Handlebars.compile(html),
     data: {},
-    fn: {
-        ValidateAccount
-    }
+    fn: {}
 };

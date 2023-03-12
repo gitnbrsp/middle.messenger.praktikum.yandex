@@ -4,18 +4,13 @@ import * as partials from './templates/partials';
 import * as templates from './templates/templates';
 
 function openPage(pageName) {
+    //todo: сделать динамический импорт через import()
     let module = templates[pageName];
     document.body.innerHTML = module.template(module.data);
 }
 
-try {
-    return window.routing = {
-        openPage
-    }
-}
-catch (e) {
-    console.error(e);
-    openPage('error');
+return window.routing = {
+    openPage
 }
 
 
