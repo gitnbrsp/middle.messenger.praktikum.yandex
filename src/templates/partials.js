@@ -41,3 +41,8 @@ Handlebars.registerPartial('accountCard', `
         <text x="150" y="125" font-size="20" fill="gray">{{abbreviate accountMail}}</text>
         <text x="350" y="125" font-size="100" onClick="window.routing.openPage('profile')"  class="material-symbols-outlined">manage_accounts</text>
     </svg>`);
+
+//todo: replace headers
+Handlebars.registerPartial('header', `
+ ...
+`);

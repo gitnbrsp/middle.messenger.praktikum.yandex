@@ -10,7 +10,8 @@ const html =
         <section id="error" class="form">
             <h2>{{statusCode}}</h2>
             <h2>{{errorMsg}}</h2>
-            {{> chatLink}}
+            {{> link newContext text="назад" id="" page="login"}}
+
         </section>
     </main>`;
 

@@ -53,6 +53,7 @@ body {
 ul {
     list-style-type: none;
     padding: 0px;
+    text-align: center;
 }
 
 button:active {
@@ -65,7 +66,7 @@ button:disabled {
 
 .material-symbols-outlined {
  color: var(--color-active);
- font-size: 48px;
+ font-size: 50px;
  cursor: pointer;
  font-variation-settings:
          'FILL' 0,

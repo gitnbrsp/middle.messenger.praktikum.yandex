@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@parcel/packager-raw-url": "^2.8.3",
+    "@parcel/transformer-webmanifest": "^2.8.3",
     "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
     "inherit": "^2.2.7",
@@ -20,7 +22,7 @@
     "start": "parcel build src/*.html && node server.js",
     "build": "parcel build src/*.html",
     "debug": "node server.js & parcel watch src/*.html",
-    "dev": "parcel src/index.html --port 3000"
+    "dev": "parcel src/index.html --port 3000 --open"
   },
   "browserslist": [
     "defaults"

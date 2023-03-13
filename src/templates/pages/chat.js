@@ -2,8 +2,7 @@ import Handlebars from "handlebars";
 import css from "./styles/chat.css";
 
 //todo: заменить на fetch /getUsers
-
-let templateData = {
+const templateData = {
     accountData: {
         accountName: 'ivan',
         accountMail: 'ivanivanov@yandex.ru',
@@ -133,30 +132,33 @@ let templateData = {
 };
 
 const html =
-`    <div id="column1">
-        <nav id="users_lsit">
-                <div>
-                    {{> accountCard accountData}}
-                    <input id="search"  class="form__search" placeholder="🔍 поиск ..." type="text">
-                </div>
-                <ul>
-                    {{#users}}
-                        {{> userCard this}}
-                    {{/users}}
-                </ul>
-        </nav>
-    </div>
-    <main id="column2">
-        <section id="user_info" class="form"></section>
-        <section id="messages">
-            <div class="form"><h2>Выберите чат</h2></div>
-        </section>
-        <form id="message_form" class="form">
-            <label class="material-symbols-outlined">attach_file
-            <input id="attached_file" type="file" class="no-display"></label>
-            <textarea id="message_text" class="form__input" autofocus autocomplete="on"></textarea>
-            <button id="send_message" class="material-symbols-outlined" disabled>mail</button>
-        </form>
+`    <main>
+        <div id="column1">
+            <section id="users_lsit">
+                    <div>
+                        {{> accountCard accountData}}
+                        <input id="search"  class="form__search" placeholder="🔍 поиск ..." type="text">
+                    </div>
+                    <ul>
+                        {{#users}}
+                            {{> userCard this}}
+                        {{/users}}
+                    </ul>
+            </section>
+        </div>
+        <div id="column2">
+            <section id="user_info" class="form"></section>
+            <section id="messages">
+                <div class="form"><h2>Выберите чат</h2></div>
+                {{> link newContext text="на главную" id="" page="all_links"}}
+            </section>
+            <form id="message_form" class="form">
+                <label class="material-symbols-outlined">attach_file
+                <input id="attached_file" type="file" class="no-display"></label>
+                <textarea id="message_text" class="form__input" autofocus autocomplete="on"></textarea>
+                <button id="send_message" class="material-symbols-outlined" disabled>mail</button>
+            </form>
+        </div>
     </main>`;
 
 

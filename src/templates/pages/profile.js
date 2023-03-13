@@ -13,25 +13,27 @@ const html =
     `<main class="container">
         <form id="profile_form" class="form">
             <div id="warning" class="text warning">невозможно сохранить изменения</div>
-            
             <label>
                 <span class="material-symbols-outlined">photo_camera</span>
                 <input class="no-display" type="file">
             </label>
-            
             <input name="first_name" class="form__input" type="text" placeholder="{{abbreviate first_name}}">
             <input name="second_name" class="form__input" type="text" placeholder="{{abbreviate second_name}}">
             <input name="login" class="form__input" type="text" placeholder="{{abbreviate login}}">
             <input name="email" class="form__input" type="text" placeholder="{{abbreviate email}}">
             <input name="phone" class="form__input" type="text" placeholder="{{abbreviate phone}}">
             <button name="signButton" class="form__button" disabled>Сохранить изменения</button>
-            <a class="text-link" href="#" onclick="window.routing.openPage('password')">изменить пароль</a>
-            <a class="text-link" href="#" onclick="window.routing.openPage('chat')">назад</a>
+            <nav>
+                <ul>
+                    <li><a class="text-link" href="#" onclick="window.routing.openPage('password')">изменить пароль</a></li>
+                    <li><a class="text-link" href="#" onclick="window.routing.openPage('chat')">назад</a></li>
+                    <li>{{> link newContext text="на главную" id="" page="all_links"}}</li>
+                </ul>
+            </nav>
         </form>
     </main>`;
 
 export const template = {
     template: Handlebars.compile(html),
-    data: templateData,
-    fn: {}
+    data: templateData
 };
