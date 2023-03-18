@@ -1,0 +1,34 @@
+{
+  "devDependencies": {
+    "@parcel/packager-raw-url": "^2.8.3",
+    "@parcel/transformer-webmanifest": "^2.8.3",
+    "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
+    "inherit": "^2.2.7",
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0",
+    "postcss-inherit": "^4.1.0",
+    "postcss-modules": "^4.3.1"
+  },
+  "dependencies": {
+    "@parcel/resolver-glob": "^2.8.3",
+    "cssnano": "^5.1.15",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7"
+  },
+  "scripts": {
+    "start": "parcel build src/*.html && node server.js",
+    "build": "parcel build src/*.html",
+    "debug": "node server.js & parcel watch src/*.html",
+    "dev": "parcel src/index.html --port 3000 --open"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "engines": {
+    "node": ">=16",
+    "npm": ">6"
+  }
+}
