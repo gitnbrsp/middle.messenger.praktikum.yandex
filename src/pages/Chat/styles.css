@@ -1,0 +1,57 @@
+main {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+#messages {
+    min-height: 70vh;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+}
+
+#user-info, #message-form {
+    min-height: 10vh;
+    box-shadow: 0 0 5px 5px var(--color-background);
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#users-lsit {
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    max-width: 450px;
+    overflow: auto;
+    background: var(--color-background);
+    box-shadow: 0 0 10px 10px var(--color-background);
+    display: flex;
+    margin: 20px;
+}
+
+#column1 {
+    width: 30%;
+    min-width: 500px;
+}
+
+#column2 {
+    width: 70%;
+    text-align: center;
+    float: right;
+}
+
+#message-text {
+    margin: 10px;
+    padding: 10px;
+    font-size: var(--font-small);
+    text-transform: none;
+    width: 100%;
+    text-align: justify;
+}
+
+#send-message {
+    background-color: transparent;
+    border: none;
+}
