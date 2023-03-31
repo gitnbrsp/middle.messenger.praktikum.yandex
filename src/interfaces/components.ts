@@ -33,8 +33,10 @@ interface AccountDataProps extends User{
 
 interface InputProps {
     placeholder: string;
+    id: string;
     type: string;
     name: string;
+    warning?:string;
     events: {
         click: () => void;
         blur: () => void;

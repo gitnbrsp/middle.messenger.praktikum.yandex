@@ -2,7 +2,7 @@ import {Block} from "../../utils/Block";
 import {Link, indexPage} from "../../components/Link";
 import {template} from "./template";
 import styles from "../../components/Link/styles.css";
-import {password} from "../../components/Input";
+import {password, confirmPassword, newPassword} from "../../components/Input";
 import {Button} from "../../components/Button";
 import {handleValidation} from "../../utils/utils";
 
@@ -14,9 +14,9 @@ export class Password extends Block {
 
     init() {
 
-        this.children.old_password = password;
-        this.children.new_password = password;
-        this.children.confirm_password = password;
+        this.children.password = password;
+        this.children.newPassword = newPassword;
+        this.children.confirmPassword = confirmPassword;
 
         this.children.signButton = new Button({
             text: "Сохранить",

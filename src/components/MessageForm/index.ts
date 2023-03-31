@@ -12,7 +12,6 @@ export class MessageForm extends Block<MessageFormProps> {
     }
 }
 
-
 export const messageForm = new MessageForm({
     events: {
         submit: (event)=>{

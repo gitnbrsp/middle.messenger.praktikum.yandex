@@ -4,7 +4,7 @@ import {template} from "./template";
 import styles from "../../components/Link/styles.css";
 import {login, password} from "../../components/Input";
 import {Button} from "../../components/Button";
-import {handleValidation, validateForm} from "../../utils/utils";
+import {handleValidation} from "../../utils/utils";
 
 
 export class Login extends Block {
@@ -25,6 +25,7 @@ export class Login extends Block {
                 }
             }
         } as ButtonProps);
+
         this.children.createAccount = new Link({
             label: "Создать аккаунт",
             events: {

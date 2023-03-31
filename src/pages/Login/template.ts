@@ -1,6 +1,8 @@
 export const template =
     `<main class="container">
         <form onsubmit="return false;" id="form" class="form">
+            {{warning}}
+            
             {{{login}}}
             {{{password}}}
             {{{signButton}}}

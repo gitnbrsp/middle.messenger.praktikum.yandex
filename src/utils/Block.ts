@@ -19,9 +19,9 @@ export class Block<P extends Record<string, unknown> = unknown>{
     } as const;
 
     /** Class representing a lifecycle of element.
-     * @param {Record<string, any>} props - listener`s key.
-     * @param {Record<string, Block | Block[]>} children - listener`s key.
-     * @return {void} Throw error if event not key of listeners.
+     * @param {Record<string, any>} props.
+     * @param {Record<string, Block | Block[]>} children.
+     * @return {void}.
      */
 
     constructor(props, children){
@@ -34,14 +34,14 @@ export class Block<P extends Record<string, unknown> = unknown>{
                 return typeof value === 'function' ? value.bind(target) : value;
             },
             set(target:string, prop:string, value) {
-                const oldTarget = {...target}
+                const oldTarget = {...target};
                 target[prop] = value;
                 eventBus.emit(Block.EVENTS.FLOW_CDU, [oldTarget, target]);
                 return true;
             }
         } as ProxyHandler<P>);
 
-        this.id = this.props?.id ? this.props?.id:window.crypto.randomUUID();
+        this.id = this.props?.id ? this.props?.id as string : window.crypto.randomUUID() as string;
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
@@ -54,6 +54,16 @@ export class Block<P extends Record<string, unknown> = unknown>{
         Object.keys(events).forEach(eventName => {
             this._element!.addEventListener(eventName, events[eventName]);
         });
+    }
+
+    private _removeEvents() {
+        if (this._element){
+            const {events = {}} = this.props as P & {events: Record<string, (event) => void>};
+
+            Object.keys(events).forEach(eventName => {
+                this._element!.removeEventListener(eventName, events[eventName]);
+            });
+        }
     }
 
     private _registerEvents(eventBus){
@@ -80,7 +90,7 @@ export class Block<P extends Record<string, unknown> = unknown>{
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 
         Object.values(this.children).forEach(child => {
-            child!.dispatchComponentDidMount();
+            child.dispatchComponentDidMount();
         });
     }
 
@@ -97,6 +107,8 @@ export class Block<P extends Record<string, unknown> = unknown>{
 
     private _render(){
         const fragment = this.render();
+
+        this._removeEvents();
 
         const newElement = fragment.firstElementChild as HTMLElement;
 
@@ -117,7 +129,7 @@ export class Block<P extends Record<string, unknown> = unknown>{
         const propsObj = {...context};
 
         Object.entries(this.children).forEach(([name, component]) => {
-            propsObj[name] = `<div data-id="${component!.id}"></div>`;
+            propsObj[name] = `<div data-id="${component.id}"></div>`;
         });
 
         const compiledTemplate = handlebars.compile(template);
@@ -126,12 +138,20 @@ export class Block<P extends Record<string, unknown> = unknown>{
 
         Object.values(this.children).forEach((component) => {
             const elements = tpl.content.querySelector(`[data-id="${component.id}"]`);
-            component.getContent()?.append(...Array.from(elements.childNodes));
-            elements.replaceWith(component.getContent()!);
+            component.getContent().append(...Array.from(elements.childNodes));
+            elements.replaceWith(component.getContent());
         });
 
         return tpl.content;
     }
+
+    setProps = (nextProps: Partial<P>) => {
+        if (!nextProps) {
+            return;
+        }
+
+        Object.assign(this.props, nextProps);
+    };
 
     get element() {
         return this._element;

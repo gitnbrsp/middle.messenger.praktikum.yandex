@@ -6,7 +6,7 @@ import {
     email,
     first_name,
     login,
-    password,
+    display_name,
     phone,
     second_name
 } from "../../components/Input";
@@ -23,10 +23,10 @@ export class Profile extends Block {
         //todo: current profile data display
         this.children.first_name = first_name;
         this.children.second_name = second_name;
+        this.children.display_name = display_name;
         this.children.login = login;
         this.children.email = email;
         this.children.phone = phone;
-        this.children.password = password;
         this.children.signButton = new Button({
             text: "Сохранить изменения",
             name: "signButton",
