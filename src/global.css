@@ -1,20 +1,21 @@
+@import url("./pages/Chat/styles.css");
+
 @font-face {
-    font-family: "Inter";
+    font-family: Inter;
     src: url("../static/inter.ttf") format("ttf");
 }
 
 html * {
-    font-family: 'Inter', serif;
+    font-family: Inter, serif;
 }
 
 :root {
-    --color-background: rgba(216, 221, 222, 0.7);
+    --color-background: rgb(216 221 222 / 70%);
     --color-border: #5c6b5d;
-    --color-highlight: rgba(112, 141, 122, 0.5);
+    --color-highlight: rgba(112 141 122 / 50%);
     --color-active: #000500;
     --text-link-color: #173b2a;
-    --inactive-text-color: rgba(65, 65, 65, 0.8);
-
+    --inactive-text-color: rgba(65 65 65 / 80%);
     --font-small: 20px;
     --font-medium: 30px;
     --font-large: 40px;
@@ -52,7 +53,7 @@ body {
 
 ul {
     list-style-type: none;
-    padding: 0px;
+    padding: 0;
     text-align: center;
 }
 
@@ -75,8 +76,7 @@ button:disabled {
          'opsz' 48
 }
 
-.warning {
-    display: none;
+.warning, .warning-message {
     color: red;
 }
 
@@ -95,32 +95,37 @@ button:disabled {
     justify-content: center;
     flex-flow: column;
     background: var(--color-background);
-    box-shadow: 0px 0px 50px 50px var(--color-background);
+    box-shadow: 0 0 50px 50px var(--color-background);
     margin: 20px;
+
 }
 
-.form__input, .form__button, .form__search {
+.form > * {
+    margin: 5px;
+}
+
+.form-input, .form-button, .form-search {
     width: 400px;
     height: 100px;
     outline: none;
     font-size: var(--font-medium);
     text-align: center;
+}
+
+.form-button {
+    border: 5px solid var(--color-border);
+    background-color: transparent;
     text-transform: uppercase;
 }
 
-.form__button {
-    border: 5px solid var(--color-border);
-    background-color: transparent;
-}
-
-.form__search {
+.form-search {
     border: 2px solid var(--color-active);
     height: auto;
     padding: 10px;
     background-color: transparent;
 }
 
-.form__input {
+.form-input {
     border: none;
     border-bottom: 2px solid var(--color-active);
     background-color: transparent;
@@ -144,7 +149,7 @@ button:disabled {
 
 .highlighted {
     background: var(--color-highlight);
-    box-shadow: 0px 0px 10px 10px var(--color-highlight);
+    box-shadow: 0 0 10px 10px var(--color-highlight);
 }
 
 .no-display {

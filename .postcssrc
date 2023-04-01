@@ -2,6 +2,7 @@
   "plugins": {
     "cssnano": {},
     "postcss-inherit": {},
-    "postcss-import": {}
-  }
+    "postcss-import": {},
+  },
+  "modeules": true
 }
