@@ -3,7 +3,7 @@ export const template =
         <form onsubmit="return false;" id="form" class="form">
             {{{password}}}
             {{{newPassword}}}
-            {{{confirmPassword}}}
+<!--            {{{confirmPassword}}}-->
             {{{signButton}}}
             <nav>
                 <ul>

@@ -1,24 +1,23 @@
-import {Block} from "../../utils/Block";
 import styles from "./styles.css";
+import {Avatar} from "../Avatar";
 import {template} from "./template"
-import {abbreviate} from "../../utils/utils";
+import {Block} from "../../utils/Block";
 
 export class AccountData extends Block<AccountDataProps> {
     constructor(props: AccountDataProps) {
         super({...props}, {});
     }
 
+    init() {
+        super.init();
+        this.children.avatar = new Avatar({
+            width: 70,
+            height: 70,
+            imagePath: this.props?.imagePath,
+        } as AvatarProps);
+    }
+
     render() {
         return this.compile(template, {...this.props, styles});
     }
 }
-
-export const testData = new AccountData({
-    first_name: "ivan",
-    email: abbreviate("ivanivanov@yandex.ru"),
-    events: {
-        click: (event)=>{
-            console.log(event);
-        }
-    }
-} as AccountDataProps);

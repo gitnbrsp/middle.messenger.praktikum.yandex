@@ -1,17 +1,17 @@
-import {Block} from "../../utils/Block";
-import {Link, indexPage} from "../../components/Link";
+import styles from "./styles.css";
 import {template} from "./template";
-import styles from "../../components/Link/styles.css";
-import {
-    email,
-    first_name,
-    login,
-    password,
-    phone,
-    second_name
-} from "../../components/Input";
+
+import Router from "../../utils/Router";
+import {Block} from "../../utils/Block";
+import {handleValidation} from "../../utils/Utils";
+
+import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
-import {handleValidation} from "../../utils/utils";
+import {Link, indexPage} from "../../components/Link";
+
+import authController from "../../controllers/AuthController";
+import router from "../../utils/Router";
+import {ROUTES} from "../../utils/Constants";
 
 
 export class Register extends Block {
@@ -20,19 +20,50 @@ export class Register extends Block {
     }
 
     init() {
-        this.children.first_name = first_name;
-        this.children.second_name = second_name;
-        this.children.login = login;
-        this.children.email = email;
-        this.children.phone = phone;
-        this.children.password = password;
+
+        this.children.first_name = new Input({
+            placeholder: "Имя",
+            name: "first_name",
+            type: "text"
+        } as InputProps);
+
+        this.children.second_name = new Input({
+            placeholder: "Фамилия",
+            name: "second_name",
+            type: "text"
+        } as InputProps);
+
+        this.children.login = new Input({
+            placeholder: "Логин",
+            name: "login",
+            type: "text"
+        } as InputProps);
+
+        this.children.email = new Input({
+            placeholder: "Почта",
+            name: "email",
+            type: "text"
+        } as InputProps);
+
+        this.children.phone = new Input({
+            placeholder: "Телефон",
+            name: "phone",
+            type: "text"
+        } as InputProps);
+
+        this.children.password = new Input({
+            placeholder: "Пароль",
+            name: "password",
+            type: "password"
+        } as InputProps);
+
         this.children.signButton = new Button({
             text: "Создать аккаунт",
             name: "signButton",
             disabled: false,
             events: {
                 click: (e) => {
-                    handleValidation(e);
+                    this.submit(e);
                 }
             }
         } as ButtonProps);
@@ -41,14 +72,25 @@ export class Register extends Block {
             label: "назад",
             events: {
                 click: ()=>{
-                    history.pushState({}, "", "Login")
+                    Router.back();
                 }
             }
         } as LinkProps);
+
         this.children.indexPage = indexPage;
+    }
+
+    submit(e) {
+        const data = handleValidation(e);
+        if (data){
+            authController.signup(data as SignupData)
+                .then(()=> router.go(ROUTES.Login))
+                .catch(e=>console.error(e));
+        }
     }
 
     render() {
         return this.compile(template, {...this.props, styles});
     }
 }
+
