@@ -42,7 +42,8 @@
   },
   "scripts": {
     "start": "parcel build src/*.html && node server.js",
-    "build": "parcel build src/*.html",
+    "build": "parcel build src/*.html && echo '/* /index.html  200' | cat >dist/_redirects",
+    "build_clean": "parcel build src/*.html",
     "debug": "node server.js & parcel watch src/*.html",
     "dev": "parcel src/index.html --port 3000 --open",
     "tslint": "eslint . --ext .ts",
