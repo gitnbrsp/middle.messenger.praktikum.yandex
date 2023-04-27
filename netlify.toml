@@ -1,0 +1,31 @@
+#Login: '/',
+#Chat: '/messenger',
+#Register: '/sign-up',
+#Profile: '/settings',
+#Index: '/navigation',
+#Password: '/password',
+#Error: '/error'
+
+[[redirects]]
+from = "/error"
+to = "/"
+
+[[redirects]]
+from = "/messenger"
+to = "/"
+
+[[redirects]]
+from = "/sign-up"
+to = "/"
+
+[[redirects]]
+from = "/settings"
+to = "/"
+
+[[redirects]]
+from = "/navigation"
+to = "/"
+
+[[redirects]]
+from = "/password"
+to = "/"
