@@ -7,25 +7,5 @@
 #Error: '/error'
 
 [[redirects]]
-from = "/error"
-to = "/error"
-
-[[redirects]]
-from = "/messenger"
-to = "/messenger"
-
-[[redirects]]
-from = "/sign-up"
-to = "/sign-up"
-
-[[redirects]]
-from = "/settings"
-to = "/settings"
-
-[[redirects]]
-from = "/navigation"
-to = "/navigation"
-
-[[redirects]]
-from = "/password"
-to = "/password"
+from = "/*"
+to = "/index.html"
