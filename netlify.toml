@@ -8,24 +8,24 @@
 
 [[redirects]]
 from = "/error"
-to = "/"
+to = "/error"
 
 [[redirects]]
 from = "/messenger"
-to = "/"
+to = "/messenger"
 
 [[redirects]]
 from = "/sign-up"
-to = "/"
+to = "/sign-up"
 
 [[redirects]]
 from = "/settings"
-to = "/"
+to = "/settings"
 
 [[redirects]]
 from = "/navigation"
-to = "/"
+to = "/navigation"
 
 [[redirects]]
 from = "/password"
-to = "/"
+to = "/password"
