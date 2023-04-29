@@ -9,11 +9,14 @@ export const template =
                     <li>{{{profile}}}</li>
                     <li>{{{password}}}</li>
                     <li>{{{register}}}</li>
-
-                    <li><a class="text-link" href="../../404.html" target="_parent">404</a></li>
-                    <li><a class="text-link" href="../../500.html" target="_parent">500</a></li>
+                    <li>{{{404}}}</li>
+                    <li>{{{500}}}</li>
+                    <li>{{{back}}}</li>
+                    
                 </ul>
             </nav>
         </section>
+
     </main>
+
 `;

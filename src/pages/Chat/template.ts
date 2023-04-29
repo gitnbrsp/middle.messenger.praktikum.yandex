@@ -1,23 +1,25 @@
 export const template =
 `
     <main>
-        <div id="column1">
-            <section id="users-lsit">
+        <nav id="users-list-container">
+            <section id="users-list">
                     {{{accountData}}}
-                    <div>
-                        <input id="search"  class="form-search" 
-                        placeholder="🔍 поиск ..." type="text">
-                    </div>
-                    {{{userCards}}}
+                    {{{search}}}
+                    {{{errorMessage}}}
+                    {{{usersCards}}}
             </section>
-        </div>
-        <div id="column2">
-            <section id="user-info" class="form"></section>
-            <section id="messages">
-                <div class="form"><h2>Выберите чат</h2></div>
-                {{{indexPage}}}
-            </section>
-               {{{messageForm}}}
+        </nav>
+        <div id="messages-container">
+        
+<!--        Menu, work in progress...     -->
+            <header id="messages-container-header">
+                {{{chatMenu}}}
+            </header>
+            
+            <div id="messages">
+                {{{messages}}}
+            </div>
+           {{{messageForm}}}
         </div>
     </main>
 `

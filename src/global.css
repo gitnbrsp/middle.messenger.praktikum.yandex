@@ -16,6 +16,7 @@ html * {
     --color-active: #000500;
     --text-link-color: #173b2a;
     --inactive-text-color: rgba(65 65 65 / 80%);
+    --warning-color: red;
     --font-small: 20px;
     --font-medium: 30px;
     --font-large: 40px;
@@ -49,6 +50,7 @@ body {
     margin: 0;
     overflow: hidden;
     min-height: 100vh;
+    min-width: 100vw;
 }
 
 ul {
@@ -66,14 +68,33 @@ button:disabled {
 }
 
 .material-symbols-outlined {
- color: var(--color-active);
- font-size: 50px;
- cursor: pointer;
- font-variation-settings:
+    color: var(--color-active);
+    font-size: 50px;
+    cursor: pointer;
+    font-variation-settings:
          'FILL' 0,
          'wght' 500,
          'GRAD' 25,
          'opsz' 48
+}
+
+span.account-icons {
+    padding-top: 20px;
+    font-size: 40px;
+    vertical-align: baseline;
+    font-variation-settings: 'OPSZ' 40;
+}
+
+span.menu-icons {
+    padding: 10px 5px;
+    font-size: 30px;
+    vertical-align: center;
+    font-variation-settings: 'OPSZ' 30;
+}
+
+span.user-card-icons {
+    font-size: 20px;
+    color: white;
 }
 
 .warning, .warning-message {
@@ -84,9 +105,8 @@ button:disabled {
     width: 100%;
     display: flex;
     align-content: center;
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
-    flex-flow: column;
 }
 
 .form {
@@ -96,8 +116,6 @@ button:disabled {
     flex-flow: column;
     background: var(--color-background);
     box-shadow: 0 0 50px 50px var(--color-background);
-    margin: 20px;
-
 }
 
 .form > * {
@@ -122,7 +140,14 @@ button:disabled {
     border: 2px solid var(--color-active);
     height: auto;
     padding: 10px;
+    margin: 20px 0 10px;
     background-color: transparent;
+}
+
+.search-result {
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .form-input {
@@ -132,6 +157,7 @@ button:disabled {
 }
 
 .text-link {
+    cursor: pointer;
     text-decoration: none;
     font-size: var(--font-small);
     text-transform: lowercase;
@@ -156,17 +182,67 @@ button:disabled {
     display: none;
 }
 
-@media screen and (max-aspect-ratio: 16/9) and (max-width: 1024px) {
-    body {
-        background-size: auto;
-    }
+.alert {
+    padding: 5px;
+    min-width: 400px;
+    background-color: #f44336;
+    color: white;
+}
 
-    #column1 {
-        width: 100%;
-    }
+.avatar {
+    margin: 0 30px;
+    vertical-align: bottom;
+    border-radius: 50%;
+}
 
-    #column2 {
-        width: 0;
-        display: none;
-    }
+.info {
+    margin: 10px;
+    font-size: var(--font-large);
+}
+
+.popup {
+    position: relative;
+    display: inline-block;
+    user-select: none;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 1px;
+    position: absolute;
+    width: 100%;
+    bottom: -15px;
+    left: 0;
+    z-index: 1000;
+}
+
+.popup .show {
+    visibility: visible;
+    animation: fade-in 0.5s;
+}
+
+.selected {
+    background-color: var(--color-highlight);
+    box-shadow: 0 0 10px 10px var(--color-highlight);
+}
+
+.modal {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    visibility: hidden;
+    cursor: pointer;
+    width: 400px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: var(--color-background);
+    box-shadow: 0 0 50px 50px var(--color-background);
 }

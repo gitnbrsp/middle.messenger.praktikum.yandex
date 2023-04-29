@@ -1,10 +1,16 @@
-import {Block} from "../../utils/Block";
-import {Link, indexPage} from "../../components/Link";
 import {template} from "./template";
-import styles from "../../components/Link/styles.css";
-import {password, confirmPassword, newPassword} from "../../components/Input";
+import styles from "./styles.css";
+
+import {Block} from "../../utils/Block";
+import router from "../../utils/Router";
+import {ROUTES} from "../../utils/Constants";
+import {handleValidation} from "../../utils/Utils";
+
+import {Link} from "../../components/Link";
+import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
-import {handleValidation} from "../../utils/utils";
+import userController from "../../controllers/UserController";
+import authController from "../../controllers/AuthController";
 
 
 export class Password extends Block {
@@ -13,10 +19,23 @@ export class Password extends Block {
     }
 
     init() {
+        this.children.password = new Input({
+            placeholder: "Пароль",
+            name: "oldPassword",
+            type: "password"
+        } as InputProps);
 
-        this.children.password = password;
-        this.children.newPassword = newPassword;
-        this.children.confirmPassword = confirmPassword;
+        this.children.newPassword = new Input({
+            placeholder: "Новый пароль",
+            name: "newPassword",
+            type: "password"
+        } as InputProps);
+
+        // this.children.confirmPassword =  new Input({
+        //     placeholder: "Подтвердите пароль",
+        //     name: "confirmPassword",
+        //     type: "password"
+        // } as InputProps);
 
         this.children.signButton = new Button({
             text: "Сохранить",
@@ -24,7 +43,15 @@ export class Password extends Block {
             disabled: false,
             events: {
                 click: (e) => {
-                    handleValidation(e);
+                    e.preventDefault();
+                    const data = handleValidation(e);
+                    if (data) {
+                        userController.updatePassword(data).then(res=>{
+                            console.log(res);
+                            authController.fetchUser();
+                            router.back();
+                        })
+                    }
                 }
             }
         } as ButtonProps);
@@ -33,12 +60,19 @@ export class Password extends Block {
             label: "назад",
             events: {
                 click: ()=>{
-                    history.pushState({}, "", "Profile")
+                    router.back();
                 }
             }
         } as LinkProps);
 
-        this.children.indexPage = indexPage;
+        this.children.indexPage = new Link({
+            label: "на главную",
+            events: {
+                click: ()=>{
+                    router.go(ROUTES.Index);
+                }
+            }
+        } as LinkProps);
     }
 
     render() {

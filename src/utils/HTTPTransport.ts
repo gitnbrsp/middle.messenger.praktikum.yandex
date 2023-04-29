@@ -1,10 +1,12 @@
+import {METHODS, URLS} from "./Constants";
+
 export default class HTTPTransport {
-    static METHODS = {
-        GET: 'GET',
-        PUT: 'PUT',
-        POST: 'POST',
-        DELETE: 'DELETE',
-    } as const;
+
+    private readonly BASE_URL = URLS.API_BASEPATH
+
+    constructor(additionalUrl:string) {
+        this.BASE_URL+=additionalUrl;
+    }
 
     private _addParamsToUrl = (url:string, params:Record<string, string>) => {
         //todo: check if non escaped spaces requred (' ' vs %20)
@@ -17,18 +19,18 @@ export default class HTTPTransport {
             // urlWParams.searchParams.set(p, params[p]);
         }
 
-        return  url+'?'+arr.join('&') //urlWParams.href
+        return  (arr.length ? url+'?'+arr.join('&') : url) //urlWParams.href
     }
 
-    get = (url:string, options:Record<string, any>) => {
-        return this._request(this._addParamsToUrl(url, options.data),
-    {...options, method: HTTPTransport.METHODS.GET}, options.timeout);
+    get = (url:string, options:Record<string, any> = {}) => {
+        return this._request(this._addParamsToUrl(url, options.user),
+    {...options, method: METHODS.GET}, options.timeout);
     };
 
     put = (url:string, options:object = {}) => {
         return this._request(
             url,
-            {...options, method: HTTPTransport.METHODS.PUT},
+            {...options, method: METHODS.PUT},
             options.timeout
         );
     };
@@ -36,7 +38,7 @@ export default class HTTPTransport {
     post = (url:string, options:object = {}) => {
         return this._request(
             url,
-            {...options, method: HTTPTransport.METHODS.POST},
+            {...options, method: METHODS.POST},
             options.timeout
         );
     };
@@ -44,7 +46,7 @@ export default class HTTPTransport {
     delete = (url:string, options:object = {}) => {
         return this._request(
             url,
-            {...options, method: HTTPTransport.METHODS.DELETE},
+            {...options, method: METHODS.DELETE},
             options.timeout
         );
     };
@@ -56,6 +58,8 @@ export default class HTTPTransport {
             const headers:Record<string, string> = options.headers;
             const xhr = new XMLHttpRequest();
 
+            url = this.BASE_URL + url;
+
             xhr.open(method, url);
 
             for (const h in headers) {
@@ -63,19 +67,22 @@ export default class HTTPTransport {
             }
 
             xhr.timeout = timeout;
-            xhr.onload = ()=>{
-                //todo: check statuscode
+
+            xhr.onload=()=>{
                 resolve(xhr);
-            };
+            }
 
             xhr.onabort = reject;
             xhr.onerror = reject;
             xhr.ontimeout = reject;
 
-            if (method === HTTPTransport.METHODS.GET || !data) {
+            xhr.responseType = 'json';
+            xhr.withCredentials = true;
+
+            if (method === METHODS.GET || !data) {
                 xhr.send();
             } else {
-                xhr.send(data);
+                xhr.send(data as Document);
             }
         });
     };

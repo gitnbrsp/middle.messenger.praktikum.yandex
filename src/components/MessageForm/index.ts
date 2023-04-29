@@ -11,13 +11,3 @@ export class MessageForm extends Block<MessageFormProps> {
         return this.compile(template, {...this.props, styles});
     }
 }
-
-export const messageForm = new MessageForm({
-    events: {
-        submit: (event)=>{
-            event.preventDefault();
-            const form:HTMLFormElement = event.target;
-            console.log(Object.fromEntries(new FormData(form)));
-        }
-    }
-} as MessageFormProps);

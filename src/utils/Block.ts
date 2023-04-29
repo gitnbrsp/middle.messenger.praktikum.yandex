@@ -1,22 +1,16 @@
 import {EventBus} from './EventBus';
 import handlebars from 'handlebars';
+import {EVENTS} from "./Constants";
 
 /** Class representing a element`s lifecycle. */
 
 export class Block<P extends Record<string, unknown> = unknown>{
 
     public id: string;
-    public children: Record<string, Block | Block[]>;
     protected props: P | undefined;
-    private _element: HTMLElement | null = null;
     private eventBus: () => EventBus;
-
-    static EVENTS = {
-        INIT: 'init',
-        FLOW_CDM: 'flow:component-did-mount',
-        FLOW_CDU: 'flow:component-did-update',
-        FLOW_RENDER: 'flow:render'
-    } as const;
+    private _element: HTMLElement | null = null;
+    public children: Record<string, Block | Block[]>;
 
     /** Class representing a lifecycle of element.
      * @param {Record<string, any>} props.
@@ -36,7 +30,7 @@ export class Block<P extends Record<string, unknown> = unknown>{
             set(target:string, prop:string, value) {
                 const oldTarget = {...target};
                 target[prop] = value;
-                eventBus.emit(Block.EVENTS.FLOW_CDU, [oldTarget, target]);
+                eventBus.emit(EVENTS.FLOW_CDU, [oldTarget, target]);
                 return true;
             }
         } as ProxyHandler<P>);
@@ -45,12 +39,11 @@ export class Block<P extends Record<string, unknown> = unknown>{
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
-        eventBus.emit(Block.EVENTS.INIT);
+        eventBus.emit(EVENTS.INIT);
     }
 
     private _addEvents() {
         const {events = {}} = this.props as P & {events: Record<string, (event) => void>};
-
         Object.keys(events).forEach(eventName => {
             this._element!.addEventListener(eventName, events[eventName]);
         });
@@ -67,18 +60,18 @@ export class Block<P extends Record<string, unknown> = unknown>{
     }
 
     private _registerEvents(eventBus){
-        eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-        eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+        eventBus.on(EVENTS.INIT, this._init.bind(this));
+        eventBus.on(EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+        eventBus.on(EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
     private _init(){
         this.init();
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        this.eventBus().emit(EVENTS.FLOW_RENDER);
     }
 
-    protected init(){}
+    init(){}
 
     private _componentDidMount(){
         this.componentDidMount();
@@ -87,7 +80,7 @@ export class Block<P extends Record<string, unknown> = unknown>{
     componentDidMount(){}
 
     public dispatchComponentDidMount() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+        this.eventBus().emit(EVENTS.FLOW_CDM);
 
         Object.values(this.children).forEach(child => {
             child.dispatchComponentDidMount();
@@ -96,13 +89,12 @@ export class Block<P extends Record<string, unknown> = unknown>{
 
     private _componentDidUpdate(oldProps: P, newProps: P){
         if (this.componentDidUpdate(oldProps, newProps)) {
-            this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+            this.eventBus().emit(EVENTS.FLOW_RENDER);
         }
     }
 
     protected componentDidUpdate(oldProps: P, newProps: P){
         return oldProps == newProps;
-
     }
 
     private _render(){
@@ -124,12 +116,12 @@ export class Block<P extends Record<string, unknown> = unknown>{
         return new DocumentFragment();
     }
 
-    protected compile(template: string, context: any){
-
+    protected compile(template: string, context: unknown){
         const propsObj = {...context};
-
         Object.entries(this.children).forEach(([name, component]) => {
-            propsObj[name] = `<div data-id="${component.id}"></div>`;
+            if (component){
+                propsObj[name] = `<div data-id="${component.id}"></div>`;
+            }
         });
 
         const compiledTemplate = handlebars.compile(template);
@@ -137,9 +129,11 @@ export class Block<P extends Record<string, unknown> = unknown>{
         tpl.innerHTML =  compiledTemplate(propsObj);
 
         Object.values(this.children).forEach((component) => {
-            const elements = tpl.content.querySelector(`[data-id="${component.id}"]`);
-            component.getContent().append(...Array.from(elements.childNodes));
-            elements.replaceWith(component.getContent());
+            if (component){
+                const elements = tpl.content.querySelector(`[data-id="${component.id}"]`);
+                component.getContent().append(...Array.from(elements.childNodes));
+                elements.replaceWith(component.getContent());
+            }
         });
 
         return tpl.content;
@@ -157,7 +151,7 @@ export class Block<P extends Record<string, unknown> = unknown>{
         return this._element;
     }
 
-    protected getContent() {
+    getContent() {
         return this.element;
     }
 }

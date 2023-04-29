@@ -1,27 +1,45 @@
-import {Block} from "../../utils/Block";
-import {Link, indexPage} from "../../components/Link";
+import styles from "./styles.css";
 import {template} from "./template";
-import styles from "../../components/Link/styles.css";
-import {login, password} from "../../components/Input";
+
+import {indexPage, Link} from "../../components/Link";
+import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
-import {handleValidation} from "../../utils/utils";
+import {WarningMsg} from "../../components/WarningMsg";
+
+import {Block} from "../../utils/Block";
+import router from "../../utils/Router";
+import {ROUTES} from "../../utils/Constants";
+import {store, withUser} from "../../utils/Store";
+import {handleValidation} from "../../utils/Utils";
+
+import authController from "../../controllers/AuthController";
 
 
-export class Login extends Block {
+export class LoginClass extends Block {
     constructor() {
         super({}, {});
     }
 
     init() {
-        this.children.login = login;
-        this.children.password = password;
+        this.children.login = new Input({
+            placeholder: "Логин",
+            name: "login",
+            type: "text"
+        } as InputProps);
+
+        this.children.password = new Input({
+            placeholder: "Пароль",
+            name: "password",
+            type: "password"
+        } as InputProps);
+
         this.children.signButton = new Button({
             text: "Войти",
             name: "signButton",
             disabled: false,
             events: {
                 click: (e) => {
-                    handleValidation(e);
+                    this.submit(e);
                 }
             }
         } as ButtonProps);
@@ -30,14 +48,47 @@ export class Login extends Block {
             label: "Создать аккаунт",
             events: {
                 click: ()=>{
-                    history.pushState({}, "", "Register")
+                    router.go(ROUTES.Register);
                 }
             }
         } as LinkProps);
+
         this.children.indexPage = indexPage;
+
+        // this.children.warning = this.renderWarning();
+    }
+
+    protected componentDidUpdate(): boolean {
+        // this.children.warning = this.renderWarning();
+        return true;
+    }
+
+    private renderWarning():WarningMsg {
+        const state = store.getState().user;
+        const text = state.isLoading ? '' : state.errorMessage ? state.errorMessage : '';
+        return new WarningMsg({
+            text: text
+        } as WarningMsgProps)
+    }
+
+    submit(e) {
+
+        e.preventDefault();
+        const data = handleValidation(e) as SignupData;
+
+        // If state has user - signin without request
+        if (store.getState().user.user) {
+            router.go(ROUTES.Chat);
+        } else {
+            // If form data valid - signin
+            data ? authController.signin(data).then().catch(e=>console.error(e)) : false
+        }
     }
 
     render() {
         return this.compile(template, {...this.props, styles});
     }
 }
+
+export const Login = withUser(LoginClass);
+
