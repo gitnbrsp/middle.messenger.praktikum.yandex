@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
 <img src="https://www.svgrepo.com/show/321219/pine-tree.svg" alt="pine logo" style="height: 100px; width:100px;"/>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/95df56aa-29ac-488b-9ab6-055bdec6de0a/deploy-status)](https://app.netlify.com/sites/courageous-pony-83f1dc/deploys)
@@ -27,7 +27,7 @@
 - [x] Написаны тесты для роутера, компонента (Link), модуля отправки запросов, утилит, роутера (npm test)
 - [x] Webpack
 - [x] Docker-сборка статичного приложения
-- [x] Проект с Docker-сборкой на [Render.com]()
+- [x] Проект с Docker-сборкой на [Render.com](https://messenger-jpir.onrender.com)
 - [x] Настроен precommit с husky
 - [x] Проведен аудит пакетов (npm audit), версии зафиксированы
 - [x] Обновлен README.md
