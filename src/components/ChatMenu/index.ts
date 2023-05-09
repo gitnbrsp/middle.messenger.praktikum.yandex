@@ -17,31 +17,27 @@ export class ChatMenu extends Block<ChatMenuProps> {
         this.children.search_add =  new Search({
             id: 'add_agent',
             events: {
-                input: (e)=>{
-                    userController.searchUser(e.target.value).then(res=>{
-                        console.log(res)
-                        const result = document.querySelector('#add_agent');
-                        result.innerHTML = '';
-                        res.forEach(r=>{
-                            console.log(r)
+                input: (e: Event)=>{
+                    //@ts-ignore
+                    userController.searchUser(e.target.value).then((res: any)=>{
+                        const result: HTMLElement | null = document.querySelector('#add_agent');
+                        result!.innerHTML = '';
+                        res.forEach((r: any)=>{
                             const li = document.createElement('li');
                             li.innerHTML = `${r.login}`;
                             li.classList.add('search_result');
                             li.id = r.id;
                             li.addEventListener('click', ()=>{
-                                chatController.addChatUsers(
-                                    [r.id],
+                                chatController.addChatUsers([r.id],
+                                    //@ts-ignore
                                     store.getState().messages.activeChatId)
-                                    .then(()=>{
-                                        console.log('chat created')
-                                    })
                             })
-                            result.appendChild(li)
+                            result!.appendChild(li)
                         })
                     })
                 }
             }
-        } as SearchProps);
+        } as unknown as SearchProps);
     }
 
     render() {

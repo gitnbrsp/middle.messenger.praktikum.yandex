@@ -1,9 +1,8 @@
-<center>
+<div style="text-align: center">
 <img src="https://www.svgrepo.com/show/321219/pine-tree.svg" alt="pine logo" style="height: 100px; width:100px;"/>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/95df56aa-29ac-488b-9ab6-055bdec6de0a/deploy-status)](https://app.netlify.com/sites/courageous-pony-83f1dc/deploys)
-</center>
-
+</div>
 ## Учебный проект Яндекс
 ## Команды
 
