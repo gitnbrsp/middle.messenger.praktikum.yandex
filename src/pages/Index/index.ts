@@ -3,9 +3,10 @@ import {template} from "./template";
 
 import {indexPage, Link} from "../../components/Link";
 
-import Router from "../../utils/Router";
+import {router} from "../../utils/Router";
 import {Block} from "../../utils/Block";
 import {ROUTES} from "../../utils/Constants";
+import {LinkProps} from "../../interfaces/components";
 
 export class Index extends Block {
 
@@ -19,7 +20,7 @@ export class Index extends Block {
             label: "Вход",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Login);
+                    router.go(ROUTES.Login);
                 }
             }
         } as LinkProps);
@@ -28,7 +29,7 @@ export class Index extends Block {
             label: "Создать аккаунт",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Register);
+                    router.go(ROUTES.Register);
                 }
             }
         } as LinkProps);
@@ -37,7 +38,7 @@ export class Index extends Block {
             label: "Чат",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Chat);
+                    router.go(ROUTES.Chat);
                 }
             }
         } as LinkProps);
@@ -46,7 +47,7 @@ export class Index extends Block {
             label: "Профиль",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Profile);
+                    router.go(ROUTES.Profile);
                 }
             }
         } as LinkProps);
@@ -55,7 +56,7 @@ export class Index extends Block {
             label: "Смена пароля",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Password);
+                    router.go(ROUTES.Password);
                 }
             }
         } as LinkProps);
@@ -64,7 +65,7 @@ export class Index extends Block {
             label: "404",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Error);
+                    router.go(ROUTES.Error);
                 }
             }
         } as LinkProps);
@@ -73,7 +74,7 @@ export class Index extends Block {
             label: "500",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Error);
+                    router.go(ROUTES.Error);
                 }
             }
         } as LinkProps);

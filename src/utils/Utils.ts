@@ -1,5 +1,14 @@
-export type Indexed<T = any> = {
+export type Indexed<T = unknown> = {
     [key in string]: T;
+}
+
+export function abbreviate(text: string | undefined): string {
+    if (text?.length) {
+        return (text.length > 15) ? text.substring(0,13) + ' ...' : text;
+    }
+    else {
+        return 'field_empty';
+    }
 }
 
 function setValue(object: Indexed, path: string, value: unknown): void {
@@ -28,11 +37,10 @@ export function set(object: Indexed | number | string, path: string, value: unkn
     return object;
 }
 
-//todo: key-value validate function - warning message
-export const REGEXP:Record<string, Record<RegExp, string>> = {
-    first_name: {regexp:/^[A-ZА-Я]{1}[a-zа-я\-]{0,30}$/g,
+export const REGEXPS: Record<string, {regexp: RegExp, warning: string}> = {
+    first_name: {regexp:/^[A-ZА-Я]{1}[a-zа-я-]{0,30}$/g,
         warning: "имя - латиница или кириллица, первая буква - заглавная"},
-    second_name: {regexp:/^[A-ZА-Я]{1}[a-zа-я\-]{0,30}$/g,
+    second_name: {regexp:/^[A-ZА-Я]{1}[a-zа-я-]{0,30}$/g,
         warning: "фамилия - латиница или кириллица, первая буква - заглавная"},
     login: {regexp:/^[a-zA-Z1-9\-_]{3,20}$/g,
         warning: "логин от 3 до 20 символов, латиница, без спецсимволов"},
@@ -54,46 +62,51 @@ export const REGEXP:Record<string, Record<RegExp, string>> = {
     //     warning: "сообщение не должно быть пустым"}
 };
 
-export function handleValidation(event:Event): Record<string, unknown> | false {
-
-    const form: HTMLFormElement = event.target.form;
+export function handleValidation(event: Event): Record<string, unknown> | false {
+    const form = (event.target as HTMLFormElement).form;
 
     if (form) {
-        const formObj = Object.fromEntries(new FormData(form));
-        return validateForm(form) ? formObj : false
+        if (isFormValid(form)) {
+            return Object.fromEntries(new FormData(form))
+        } else {
+            return false
+        }
     }
     else {
         return false;
     }
 }
 
-export function validateForm(obj: Record<string, HTMLElement>):boolean{
-
+function isFormValid(formData: Record<string, HTMLInputElement>):boolean{
     let isValid = true;
 
-    Object.entries(obj).forEach(([_, val])=>{
-
-        const name = val.name;
-
-        if (Object.keys(REGEXP).includes(name)) {
-            REGEXP[name].regexp.lastIndex = 0;
-            if (REGEXP[name].regexp.test(val.value)){
-                val.classList.remove("warning");
-                if (val.nextElementSibling) {
-                    val.nextElementSibling.classList.remove('show')
-                }
+    Object.values(formData).forEach((input)=>{
+        if (Object.keys(REGEXPS).includes(input.name)) {
+            REGEXPS[input.name].regexp.lastIndex = 0;
+            if (REGEXPS[input.name].regexp.test(input.value)){
+                removeWarning(input);
             }
             else {
-                if (val.nextElementSibling) {
-                    const warn = val.nextElementSibling;
-                    warn.textContent = REGEXP[name].warning;
-                    warn.classList.add('show');
-                }
-                val.classList.add("warning");
+                showWarning(input);
                 isValid = false;
             }
         }
     })
-
     return isValid
+}
+
+function showWarning(input: HTMLInputElement): void {
+    input.classList.add("warning");
+    if (input.nextElementSibling) {
+        const warn = input.nextElementSibling;
+        warn.textContent = REGEXPS[input.name].warning;
+        warn.classList.add('show');
+    }
+}
+
+function removeWarning(input: HTMLInputElement): void {
+    input.classList.remove("warning");
+    if (input.nextElementSibling) {
+        input.nextElementSibling.classList.remove('show')
+    }
 }

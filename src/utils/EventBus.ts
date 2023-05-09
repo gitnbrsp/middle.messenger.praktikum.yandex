@@ -9,7 +9,7 @@ export class EventBus {
      * @return {void} Throw error if event not key of listeners.
      */
 
-    private _checkListener(event) {
+    private _checkListener(event: string) {
         if (!this.listeners[event]){
             throw new Error(`No such event, ${event}`);
         }
@@ -22,7 +22,7 @@ export class EventBus {
      * @return {void} Add listener.
      */
 
-    public on(event, callback) {
+    public on(event: string, callback: any) {
 
         if (!this.listeners[event]){
             this.listeners[event] = [];
@@ -38,7 +38,7 @@ export class EventBus {
      * @return {void} Remove listener.
      */
 
-    public off(event, callback) {
+    public off(event: string, callback: any) {
         this._checkListener(event);
 
         this.listeners[event] = this.listeners[event].filter(
@@ -52,11 +52,12 @@ export class EventBus {
      * @param {any[] | null} args - event params.
      * @return {void} Do listener`s callback.
      */
-
-    public emit(event, ...args){
+    //@ts-ignore
+    public emit(event: string, ...args){
         this._checkListener(event);
 
         this.listeners[event].forEach(listener=>{
+            //@ts-ignore
             listener(...args);
         })
     }

@@ -1,10 +1,11 @@
 import {AuthAPI} from '../api/AuthAPI';
 
-import router from '../utils/Router';
+import {router} from '../utils/Router';
 import {store} from '../utils/Store';
 import {ROUTES, STORE} from "../utils/Constants";
 
 import chatController from "./ChatController";
+import {SigninData, SignupData} from "../interfaces/api";
 
 class AuthController {
     private api: AuthAPI;
@@ -21,14 +22,13 @@ class AuthController {
 
     async signin(data: SigninData): Promise<void> {
         this.loading();
-        await this.api.signin(data).then(res=>{
-// todo: check statuscode better (switch etc.)
-// if (res.status <=== 200 || res.status === 304 || res.response.contains('User already in system'))
+        await this.api.signin(data).then((res: any)=>{
             if (res.status < 401) {
                 this.fetchUser();
                 chatController.fetchChats();
                 router.go(ROUTES.Chat);
             } else {
+                //@ts-ignore
                 store.set(STORE.USER_ERROR_MESSAGE, res.reason ? res.reason : res.statusText);
             }
         });
@@ -59,7 +59,7 @@ class AuthController {
     async fetchUser() {
         this.loading();
         await this.api.currentUser()
-            .then((res) => {
+            .then((res: any)=> {
                 if (res.status < 401) {
                     store.set(STORE.USER, res.response);
                 }

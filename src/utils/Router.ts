@@ -5,12 +5,7 @@ function isEqual(lhs: string, rhs: string): boolean {
 }
 
 function render(query: string, block: Block) {
-    const app = document.querySelector(query);
-
-    if (app === null) {
-        throw new Error('selector not found');
-    }
-
+    const app = document.querySelector(query) as HTMLElement;
     const content = block.getContent();
     app.replaceChildren(content as Node);
     return app;
@@ -21,15 +16,8 @@ class Route {
 
     constructor(
         private pathname: string,
-        private readonly blockClass: typeof Block,
-        private readonly query: string) {
-    }
-
-    navigate(pathname) {
-        if (this.match(pathname)) {
-            this.pathname = pathname;
-            this.render();
-        }
+        private blockClass: Block,
+        private query: string) {
     }
 
     leave() {
@@ -54,7 +42,7 @@ class Router {
     private currentRoute: Route | null = null;
     private history = window.history;
 
-    constructor(private readonly rootQuery: string) {
+    constructor(private rootQuery: string) {
         if (Router.__instance) {
             return Router.__instance;
         }
@@ -64,7 +52,7 @@ class Router {
         Router.__instance = this;
     }
 
-    public use(pathname: string, block: typeof Block) {
+    public use(pathname: string, block: Block) {
         const route = new Route(pathname, block, this.rootQuery);
         this.routes.push(route);
 
@@ -72,7 +60,7 @@ class Router {
     }
 
     public start() {
-        window.onpopstate = (event: PopStateEvent) => {
+        window.onpopstate = () => {
             this._onRoute(window.location.pathname);
         }
 
@@ -113,4 +101,4 @@ class Router {
     }
 }
 
-export default new Router('#app');
+export const router = new Router('#app');

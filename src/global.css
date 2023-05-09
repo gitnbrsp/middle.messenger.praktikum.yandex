@@ -200,9 +200,14 @@ span.user-card-icons {
     font-size: var(--font-large);
 }
 
+.info-secondary {
+    margin: 10px;
+    font-size: var(--font-small);
+    color: var(--inactive-text-color);
+}
+
 .popup {
     position: relative;
-    display: inline-block;
     user-select: none;
 }
 

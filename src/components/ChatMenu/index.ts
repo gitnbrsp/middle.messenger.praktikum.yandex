@@ -5,6 +5,7 @@ import {Search} from "../Search";
 import userController from "../../controllers/UserController";
 import chatController from "../../controllers/ChatController";
 import {store} from "../../utils/Store";
+import {ChatMenuProps, SearchProps} from "../../interfaces/components";
 
 export class ChatMenu extends Block<ChatMenuProps> {
     constructor(props: ChatMenuProps) {

@@ -1,18 +1,40 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/95df56aa-29ac-488b-9ab6-055bdec6de0a/deploy-status)](https://app.netlify.com/sites/courageous-pony-83f1dc/deploys)
+<center>
+<img src="https://www.svgrepo.com/show/321219/pine-tree.svg" alt="pine logo" style="height: 100px; width:100px;"/>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/95df56aa-29ac-488b-9ab6-055bdec6de0a/deploy-status)](https://app.netlify.com/sites/courageous-pony-83f1dc/deploys)
+</center>
+
+## Учебный проект Яндекс
 ## Команды
 
-- `npm install` — установка зависимостей из package.json,
-- `npm start` — сборка и запуск сервера express на 3000 порту,
-- `npm run build` — сборка без запуска сервера.
+- `npm install` — установка зависимостей из package.json.
+- `npm start_parcel` — сборка parcel и запуск сервера express на 3000 порту.
+- `npm run build` — сборка parcel без запуска сервера.
 - `npm run dev` — запуск без сборки на сервере Parcel, порт 3000.
 - `npm run tslint` — запуск eslint.
 - `npm run csslint` — запуск stylelint.
+- `npm test` — запуск тестов.
+- `webpack` — сборка webpack.
 
 ## Тестовые пользователи
 
 - login `Qwe123123` pass `Qwe123123`
 - login `Qwe321321` pass `Qwe321321`
+
+## Проектная работа 4-й спринт
+
+### Чеклист:
+
+- [x] Написаны тесты для роутера, компонента (Link), модуля отправки запросов, утилит, роутера (npm test)
+- [x] Webpack
+- [x] Docker-сборка статичного приложения
+- [x] Проект с Docker-сборкой на [Render.com]()
+- [x] Настроен precommit с husky
+- [x] Проведен аудит пакетов (npm audit), версии зафиксированы
+- [x] Обновлен README.md
+- [x] Проект обновлен на [Netlify](https://deploy--courageous-pony-83f1dc.netlify.app/)
+- [x] Проект открывается на 3000 порту
+- [x] Репозиторий с работой публичный
 
 ## Проектная работа 3-й спринт
 

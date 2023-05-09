@@ -7,13 +7,14 @@ import {Avatar} from "../../components/Avatar";
 import {Button} from "../../components/Button";
 
 import {Block} from "../../utils/Block";
-import Router from "../../utils/Router";
+import {router} from "../../utils/Router";
 import {store, withUser} from "../../utils/Store";
 import {ROUTES, URLS} from "../../utils/Constants";
 import {handleValidation} from "../../utils/Utils";
 
 import userController from "../../controllers/UserController";
 import authController from "../../controllers/AuthController";
+import {AvatarProps, ButtonProps, InputProps, LinkProps, User} from "../../interfaces/components";
 
 
 export class ProfileClass extends Block {
@@ -28,11 +29,11 @@ export class ProfileClass extends Block {
             name: "signButton",
             disabled: false,
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     e.preventDefault();
                     const data = handleValidation(e);
                     if (data) {
-                        userController.updateProfile(data as User).then(res=>{
+                        userController.updateProfile(data as unknown as User).then(res=>{
                             console.log(res);
                             authController.fetchUser();
                         })
@@ -44,7 +45,7 @@ export class ProfileClass extends Block {
             label: "Смена пароля",
             events: {
                 click: ()=>{
-                    Router.go(ROUTES.Password);
+                    router.go(ROUTES.Password);
                 }
             }
         } as LinkProps);
@@ -52,7 +53,7 @@ export class ProfileClass extends Block {
             label: "назад",
             events: {
                 click: ()=>{
-                    Router.back();
+                    router.back();
                 }
             }
         } as LinkProps);
@@ -108,27 +109,25 @@ export class ProfileClass extends Block {
             height: 70,
             imagePath: state?.avatar ? URLS.RESOURCES+state.avatar : URLS.DEFAULT_AVATAR,
             events: {
-                click: (e)=>{
+                click: (e: Event)=>{
                     console.log(e)
                 },
-                change: (e)=>{
+                change: (e: Event)=>{
                     const fd = new FormData();
-                    fd.append('avatar', e.target.files[0]);
+                    fd.append('avatar', (e.target as HTMLFormElement).files[0]);
                     userController.updateProfileAvatar(fd).then(res=>{
                         console.log(res);
                         authController.fetchUser();
                     })
                 }
             }
-        } as AvatarProps);
+        } as unknown as AvatarProps);
     }
 
     protected componentDidUpdate() {
         this.updateUser();
         return true
     }
-
-
 
     render() {
         return this.compile(template, {...this.props, styles});

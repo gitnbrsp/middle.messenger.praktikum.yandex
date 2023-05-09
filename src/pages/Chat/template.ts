@@ -5,13 +5,12 @@ export const template =
             <section id="users-list">
                     {{{accountData}}}
                     {{{search}}}
+                    {{{addChat}}}
                     {{{errorMessage}}}
                     {{{usersCards}}}
             </section>
         </nav>
         <div id="messages-container">
-        
-<!--        Menu, work in progress...     -->
             <header id="messages-container-header">
                 {{{chatMenu}}}
             </header>

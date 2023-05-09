@@ -2,8 +2,9 @@ import {Block} from "./Block";
 import {EventBus} from "./EventBus";
 import {set} from "./Utils";
 import {EVENTS} from "./Constants";
+import {State} from "../interfaces/state";
 
-const initialState: State = {
+const initialState = {
     user: {
         user: null,
         isLoading: false,
@@ -23,12 +24,13 @@ const initialState: State = {
         errorMessage: '',
         activeChatId: 0,
     }
-} as State;
+} as unknown as State;
 
 class Store extends EventBus {
     private state = initialState;
 
     public set(keypath: string, value: unknown) {
+        //@ts-ignore
         set(this.state, keypath, value);
         this.emit(EVENTS.UPDATED, this.state);
     }
@@ -43,10 +45,11 @@ const store = new Store();
 export const withStore = (mapStateToProps: (state: State) => any) => {
     return (Component: typeof Block) => {
         return class WithStore extends Component {
-            constructor(props: any) {
+            constructor(props: unknown) {
                 const mappedState = mapStateToProps(store.getState());
+                //@ts-ignore
                 super({...props, ...mappedState}, {});
-                store.on(EVENTS.UPDATED, (newState) => {
+                store.on(EVENTS.UPDATED, (newState: any) => {
                     this.setProps(mapStateToProps(newState));
                 });
             }

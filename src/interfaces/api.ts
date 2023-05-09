@@ -1,4 +1,6 @@
-interface SignupData {
+import {User} from "./components";
+
+export interface SignupData {
     "first_name": string,
     "second_name": string,
     "login": string,
@@ -7,7 +9,7 @@ interface SignupData {
     "phone": string
 }
 
-interface SignupData {
+export interface SignupData {
     "first_name": string,
     "second_name": string,
     "login": string,
@@ -16,12 +18,12 @@ interface SignupData {
     "phone": string
 }
 
-interface SigninData {
+export interface SigninData {
     "login": string,
     "password": string
 }
 
-interface Chat {
+export interface Chat {
     "id": number,
     "title": string,
     "avatar": string,
@@ -33,11 +35,11 @@ interface Chat {
     }
 }
 
-interface Error {
+export interface Error {
     "reason": string,
     "status": string
 }
 
-interface BadRequest {
+export interface BadRequest {
     "reason": string
 }

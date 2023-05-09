@@ -1,5 +1,4 @@
-
-interface User {
+export interface User {
     "id": number,
     "first_name": string,
     "second_name": string,
@@ -10,16 +9,17 @@ interface User {
     "avatar": string
 }
 
-interface ButtonProps {
+export interface ButtonProps {
     text: string;
     name: string;
+    title?: string;
     disabled: boolean;
     events: {
         click: () => void;
     };
 }
 
-interface UserCardProps {
+export interface UserCardProps {
     text: string;
     title: string;
     color?: string;
@@ -28,30 +28,30 @@ interface UserCardProps {
     };
 }
 
-interface UsersCardsProps {
+export interface UsersCardsProps {
     chats: UserCardProps[];
 }
 
-interface LoadingProps {
+export interface LoadingProps {
     width?: string | number;
     height?: string | number;
     color?: string;
 }
 
-interface ChatMenuProps {
+export interface ChatMenuProps {
     events?: {
         click: () => void;
         hover: () => void;
     };
 }
 
-interface AccountDataProps extends User{
+export interface AccountDataProps extends User{
     events?: {
         click: () => void;
     };
 }
 
-interface Message {
+export interface Message {
     author?: boolean;
     chat_id: number,
     time: string,
@@ -69,11 +69,11 @@ interface Message {
     }
 }
 
-interface MessagesProps {
+export interface MessagesProps {
     messages: Message[] | []
 }
 
-interface AvatarProps{
+export interface AvatarProps{
     width: number;
     height: number;
     imagePath: string;
@@ -82,7 +82,7 @@ interface AvatarProps{
     };
 }
 
-interface InputProps {
+export interface InputProps {
     value?: string | number;
     placeholder: string;
     id: string;
@@ -96,27 +96,26 @@ interface InputProps {
     };
 }
 
-interface SearchProps {
+export interface SearchProps {
     value?: string | number;
     events: {
         input: () => void;
     };
 }
 
-interface LinkProps {
-    id?: string;
+export interface LinkProps{
     label: string;
     events?: {
         click: () => void;
     };
 }
 
-interface MessageFormProps {
+export interface MessageFormProps {
     events?: {
         submit: () => void;
     };
 }
 
-interface WarningMsgProps {
+export interface WarningMsgProps {
     text?: string
 }

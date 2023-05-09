@@ -1,27 +1,43 @@
 export const template = `
         <ul>
             {{#each chats}}          
-                    <li title="right click - menu" id="{{this.id}}" class="user-card {{selected}}"> 
-                            <div class="popup">
-                                <svg width="400" height="100">
-                                    <circle cx="40" cy="50" r="30" fill="{{this.color}}" />
-                                    <text x="100" y="50" font-size="30" fill="black">
-                                        {{this.title}}
-                                    </text>
-                                    <text x="100" y="75" font-size="22" fill="gray">
-                                        {{this.text}}
-                                    </text>
-                        <line stroke-width="4px" x1="0" y1="100" x2="400" y2="100" stroke="black" />
-                                </svg>
+                    <li id="{{this.id}}" class="{{selected}}"> 
+                            <div class="popup user-card">
+                                <div>
+                                    <label>
+                                        {{#if this.imagePath}}
+                                            <img width="70" height="70" class="avatar" 
+                                            src="{{this.imagePath}}" alt="group avatar"/>
+                                        {{else}}
+                                            <img width="70" height="70" class="avatar"
+                                            src="https://www.svgrepo.com/show/345404/group-2.svg"
+                                            alt="group avatar"/>
+                                        {{/if}}
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="info">{{this.title}}</label><br>
+                                    <label class="info-secondary">{{this.lastMessage}}</label>
+                                </div>
                                 <span class="popuptext">
-                                    <span class="material-symbols-outlined user-card-icons">
+                                    <span  
+                                    title="delete"
+                                    class="material-symbols-outlined user-card-icons">
                                         delete
                                     </span>
-                                    <span class="material-symbols-outlined user-card-icons">
+                                    <span
+                                    title="chat info" 
+                                    class="material-symbols-outlined user-card-icons">
                                         info
+                                    </span>
+                                    <span 
+                                    title="change image"
+                                    class="material-symbols-outlined user-card-icons">
+                                        image
                                     </span>
                                 </span>
                             </div>
+                            <hr>
                     </li>
             {{/each}}
         </ul>

@@ -8,7 +8,7 @@ export const template = `
             </div>
             <div>
                 <label class="info">{{display_name}}</label><br>
-                <label>{{email}}</label>
+                <label class="info-secondary">{{email}}</label>
             </div>
             <span id="edit" title="edit profile" class="material-symbols-outlined account-icons">
                 manage_accounts
