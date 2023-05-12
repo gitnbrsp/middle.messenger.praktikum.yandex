@@ -36,7 +36,7 @@ export class Block<P extends Record<string, any> = any> {
             }
         } as unknown as ProxyHandler<P>);
 
-        this.id = props.id ? props.id : window.crypto.randomUUID();
+        this.id = props.id ? props.id as string : window.crypto.randomUUID() as string;
         this.eventBus = () => eventBus;
 
         this._registerEvents(eventBus);
@@ -44,19 +44,18 @@ export class Block<P extends Record<string, any> = any> {
     }
 
     private _addEvents() {
-        const {events = {}} = this.props as P & {events: Record<string, () => void>};
-        Object.keys(events).forEach(eventName => {
-            //@ts-ignore
-            this._element.addEventListener(eventName, events[eventName]);
+        const {events = {}} = this.props as P & {events: P};
+        Object.keys(events).forEach((eventName: string) => {
+            this._element?.addEventListener(eventName, events[eventName as keyof object]);
         });
     }
 
     private _removeEvents() {
         if (this._element){
-            const {events = {}} = this.props as P & {events: Record<string, () => void>};
-            Object.keys(events).forEach(eventName => {
-                //@ts-ignore
-                this._element.removeEventListener(eventName, events[eventName]);
+            const {events = {}} = this.props as P & {events: P};
+
+            Object.keys(events).forEach((eventName: string) => {
+                this._element?.removeEventListener(eventName, events[eventName as keyof object]);
             });
         }
     }
@@ -117,28 +116,24 @@ export class Block<P extends Record<string, any> = any> {
         return new DocumentFragment();
     }
 
-    protected compile(template: string, context: any){
-        const propsObj = {...context};
+    protected compile(template: string, context: unknown){
+        const propsObj = {...<any>context};
         Object.entries(this.children).forEach(([name, component]) => {
             if (component){
-                //@ts-ignore
-                propsObj[name] = `<div data-id="${component.id}"></div>`;
+                propsObj[name] = `<div data-id="${(component as Block).id}"></div>`;
             }
         });
 
         const compiledTemplate = handlebars.compile(template);
         const tpl = document.createElement('template');
         tpl.innerHTML =  compiledTemplate(propsObj);
-        Object.values(this.children).forEach((component) => {
+        Object.values(this.children).forEach((component: any) => {
             if (component){
-                //@ts-ignore
-                const elements: HTMLElement = tpl.content.querySelector(
-                    //@ts-ignore
-                    `[data-id="${component.id}"]`);
-                //@ts-ignore
-                component.getContent().append(...Array.from(elements.childNodes));
-                //@ts-ignore
-                elements.replaceWith(component.getContent());
+                const elements: HTMLElement | null = tpl.content.querySelector(
+                    `[data-id="${(component as Block).id}"]`);
+                component.getContent().append(...Array.from(
+                    (elements as HTMLElement).childNodes));
+                elements?.replaceWith(component.getContent());
             }
         });
 

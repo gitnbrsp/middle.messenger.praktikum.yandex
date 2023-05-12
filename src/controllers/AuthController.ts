@@ -20,15 +20,14 @@ class AuthController {
         store.set(STORE.USER_ERROR_MESSAGE, ``);
     }
 
-    async signin(data: SigninData): Promise<void> {
+    async signin(data: SigninData) {
         this.loading();
-        await this.api.signin(data).then((res: any)=>{
-            if (res.status < 401) {
+        await this.api.signin(data).then((res: Record<string, unknown>)=>{
+            if ((res.status as number) < 401) {
                 this.fetchUser();
                 chatController.fetchChats();
                 router.go(ROUTES.Chat);
             } else {
-                //@ts-ignore
                 store.set(STORE.USER_ERROR_MESSAGE, res.reason ? res.reason : res.statusText);
             }
         });
@@ -59,13 +58,14 @@ class AuthController {
     async fetchUser() {
         this.loading();
         await this.api.currentUser()
-            .then((res: any)=> {
-                if (res.status < 401) {
+            .then((res: Record<string, unknown>)=> {
+                if ((res.status as number) < 401) {
                     store.set(STORE.USER, res.response);
                 }
                 else {
                     store.set(STORE.USER_ERROR, true);
-                    store.set(STORE.USER_ERROR_MESSAGE, res.reason ? res.reason : res.statusText);
+                    store.set(STORE.USER_ERROR_MESSAGE,
+                        res.reason as string ? res.reason as string : res.statusText as string);
                 }
             })
             .finally(() => {

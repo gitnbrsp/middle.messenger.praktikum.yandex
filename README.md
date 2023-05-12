@@ -8,13 +8,11 @@
 ## Команды
 
 - `npm install` — установка зависимостей из package.json.
-- `npm start_parcel` — сборка parcel и запуск сервера express на 3000 порту.
-- `npm run build` — сборка parcel без запуска сервера.
-- `npm run dev` — запуск без сборки на сервере Parcel, порт 3000.
+- `npm run build` — сборка webpack в production режиме без запуска сервера.
+- `npm run dev` — сборка webpack в development режиме с запуском devServer на 3000 порту.
 - `npm run tslint` — запуск eslint.
 - `npm run csslint` — запуск stylelint.
 - `npm test` — запуск тестов.
-- `webpack` — сборка webpack.
 
 ## Тестовые пользователи
 

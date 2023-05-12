@@ -2,8 +2,6 @@
   "devDependencies": {
     "@babel/core": "7.21.5",
     "@babel/register": "7.21.0",
-    "@parcel/packager-raw-url": "2.8.3",
-    "@parcel/transformer-webmanifest": "2.8.3",
     "@types/chai": "4.3.5",
     "@types/handlebars": "^4.1.0",
     "@types/jsdom": "21.1.1",
@@ -17,6 +15,7 @@
     "html-webpack-plugin": "^5.5.1",
     "husky": "8.0.3",
     "jsdom": "22.0.0",
+    "lint-staged": "^13.2.2",
     "mini-css-extract-plugin": "^2.7.5",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
@@ -33,7 +32,8 @@
     "ts-node": "10.9.1",
     "typescript": "5.0.4",
     "webpack": "5.82.0",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
     "babel-loader": "9.1.2",
@@ -43,16 +43,13 @@
     "style-loader": "3.3.2"
   },
   "scripts": {
-    "start_parcel": "parcel build src/*.html && node server.js",
-    "build": "parcel build src/*.html && echo '/* /index.html  200' | cat > dist/_redirects",
-    "debug": "node server.js & parcel watch src/*.html",
-    "dev": "parcel src/index.html --port 3000 --open",
+    "dev": "npx webpack serve --config webpack.development.ts",
+    "build": "npx webpack --config webpack.production.ts",
     "tslint": "eslint . --ext .ts",
     "csslint": "npx stylelint '**/*.css'",
     "test": "mocha",
     "test_coverage": "nyc mocha",
     "precommit": "husky install",
-    "render": "webpack",
     "start": "node server.js"
   },
   "browserslist": [

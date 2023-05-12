@@ -1,5 +1,5 @@
 import {METHODS, URLS} from "./Constants";
-type HTTPMethod = (url: string, options?: Record<string, unknown>) => Promise<unknown>;
+type HTTPMethod = (url: string, options?: Record<string, unknown>) => Promise<Record<string, unknown>>;
 type Options = {method: string, data?: Record<string, unknown>, headers?: Record<string, string>};
 
 export default class HTTPTransport {
@@ -48,7 +48,9 @@ export default class HTTPTransport {
         );
     };
 
-    private _request = (url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> => {
+    private _request = (url: string, options: Options, timeout = 5000):
+        Promise<Record<string, unknown>> => {
+
         return new Promise((resolve, reject) => {
             const data: unknown = options.data;
             const method: string = options.method;
@@ -66,7 +68,7 @@ export default class HTTPTransport {
             xhr.timeout = timeout;
 
             xhr.onload=()=>{
-                resolve(xhr);
+                resolve(xhr as unknown as Record<string, unknown>);
             }
 
             xhr.onabort = reject;

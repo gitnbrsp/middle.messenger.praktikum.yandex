@@ -96,7 +96,8 @@ export interface InputProps {
     };
 }
 
-export interface SearchProps {
+export interface SearchProps
+{
     value?: string | number;
     events: {
         input: () => void;
