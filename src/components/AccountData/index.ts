@@ -14,8 +14,7 @@ export class AccountData extends Block<AccountDataProps> {
         this.children.avatar = new Avatar({
             width: 70,
             height: 70,
-            //@ts-ignore
-            imagePath: this.props.imagePath,
+            imagePath: (this.props as Record<string, unknown>).imagePath,
         } as AvatarProps);
     }
 

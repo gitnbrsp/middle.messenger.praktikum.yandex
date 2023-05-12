@@ -22,14 +22,15 @@ class WSController{
     }
 
     createToken(chatId: number, userId: number): Promise<boolean> {
-        return this.api.createToken(chatId).then((res: any)=>{
+        return this.api.createToken(chatId).then((res: Record<string, unknown>)=>{
+            //@ts-ignore
             if (res.response.token) {
                 //@ts-ignore
-                this.sockets[chatId] = new WS(userId, chatId, res.response.token);
-                //@ts-ignore
-                this.sockets[chatId].on(EVENTS.NEW_MESSAGES, (messages: unknown, chatId: number)=>{
-                    //@ts-ignore
-                    if (chatId === store.getState().messages.activeChatId) {
+                this.sockets[chatId as keyof object] = new WS(userId, chatId, res.response?.token);
+                (this.sockets[chatId as keyof object] as WS).on(EVENTS.NEW_MESSAGES,
+                    (messages: unknown, chatId: number)=>{
+                        //@ts-ignore
+                        if (chatId === store.getState()?.messages.activeChatId) {
                         store.set(STORE.MESSAGES_LOADING, false);
                         store.set(STORE.MESSAGES, messages);
                     }
@@ -53,8 +54,7 @@ class WSController{
 
         if (Object.prototype.hasOwnProperty.call(this.sockets, chatId)) {
             store.set(STORE.MESSAGES_LOADING, false);
-            //@ts-ignore
-            store.set(STORE.MESSAGES, this.sockets[chatId].getMessages());
+            store.set(STORE.MESSAGES, (this.sockets[chatId as keyof object] as WS).getMessages());
             return new Promise((resolve)=>{resolve(true)})
         } else {
             return this.createToken(chatId, userId).then(isCreated=>{
@@ -71,21 +71,24 @@ class WSController{
         }
     }
 
-    sendMessage(message: any): void {
+    sendMessage(message: Record<string, unknown>): void {
         //@ts-ignore
         const chatId: number = store.getState().messages.activeChatId;
 
         if (chatId) {
             if (Object.prototype.hasOwnProperty.call(this.sockets, chatId)) {
                 if (message.type === 'file') {
-                    this.api.uploadFile(message.content as FormData).then((res: any)=>{
-                        if (res.status === 200) {
-                            const id = res.response.id;
-                            //@ts-ignore
-                            this.sockets[chatId].sendMessage(JSON.stringify({
-                                content: id,
-                                type: 'file'
-                            }));
+                    this.api.uploadFile(message.content as FormData)
+                        .then((res: Record<string, unknown>)=>{
+
+                            if (res.status === 200) {
+                                //@ts-ignore
+                                const id = res.response.id;
+                                (this.sockets[chatId as keyof object] as WS)
+                                .sendMessage(JSON.stringify({
+                                    content: id,
+                                    type: 'file'
+                                }));
                         } else {
                             throw 'file upload error'
                         }
@@ -94,8 +97,8 @@ class WSController{
                     })
                 }
                 else {
-                    //@ts-ignore
-                    this.sockets[chatId].sendMessage(JSON.stringify(message));
+                    (this.sockets[chatId as keyof object] as WS)
+                        .sendMessage(JSON.stringify(message));
                 }
             }
         }

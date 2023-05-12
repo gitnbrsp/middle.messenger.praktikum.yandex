@@ -28,13 +28,13 @@ export class UserAPI extends BaseAPI {
         })
     }
 
-    getUserById(id: string): Promise<unknown> {
+    getUserById(id: string): Promise<Record<string, unknown>> {
         return this.http.get(`/${id}`, {
             headers: HEADERS.JSON_GET
         })
     }
 
-    searchUser(data: {login: string}): Promise<unknown> {
+    searchUser(data: {login: string}): Promise<Record<string, unknown>> {
         return this.http.post(`/search`, {
             headers: HEADERS.JSON,
             data: JSON.stringify(data)})
