@@ -73,12 +73,11 @@ export class WS extends EventBus {
                         this.messages = [...data, ...this.messages];
                     }
                     this.emit(EVENTS.NEW_MESSAGES, this.messages, this.chatId);
-                    console.log(data)
             }
         });
 
-        this.socket.addEventListener('error', event => {
-            // @ts-ignore
+        //@ts-ignore
+        this.socket.addEventListener('error', (event: Record<string, unknown>) => {
             console.error('error', event.message);
         });
     }
@@ -87,10 +86,11 @@ export class WS extends EventBus {
         return this.messages as unknown
     }
 
-    // public sendMessage(message): void {
-    //     this.socket.send(message);
-    //     setTimeout(()=>{
-    //         this._getOldMessages();
-    //     }, 2000)
-    // }
+    // @ts-ignore
+    public sendMessage(message): void {
+        this.socket.send(message);
+        setTimeout(()=>{
+            this._getOldMessages();
+        }, 2000)
+    }
 }

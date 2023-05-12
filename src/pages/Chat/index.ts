@@ -32,7 +32,7 @@ import {Link} from "../../components/Link";
 
 
 class ChatClass extends Block {
-    constructor(props: any) {
+    constructor(props: Record<string, unknown>) {
         super({...props}, {});
     }
 

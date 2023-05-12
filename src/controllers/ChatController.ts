@@ -18,7 +18,7 @@ class ChatController {
     getChats(offset: number, limit: number, title: string): Promise<unknown> {
         this.loading();
         return this.api.getChats(offset, limit, title)
-            .then((res: any)=>{
+            .then((res: Record<string, unknown>)=>{
             if (res.status === 200 || res.status === 304) {
                 store.set(STORE.CHATS_LOADING, false);
                 return res;
@@ -31,7 +31,7 @@ class ChatController {
     fetchChats(): Promise<void> {
         this.loading();
         return this.getChats(0,999, '').then((res: any) => {
-                if (res.status < 401) {
+                if (res?.status < 401) {
                     store.set(STORE.CHATS, res.response);
                     store.set(STORE.CHATS_LOADING, false);
                 }

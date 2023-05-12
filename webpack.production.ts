@@ -1,10 +1,11 @@
+//@ts-nocheck
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: './src/index.ts',
-    mode: 'development',
+    mode: 'production',
     devtool: 'source-map',
     output: {
         publicPath: "auto",
@@ -15,11 +16,10 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.json','.css']
     },
-    devServer: {
-        hot: true,
-        port: 3000,
-        compress: false,
-        historyApiFallback: true,
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
     },
     module: {
         rules: [
@@ -30,7 +30,6 @@ module.exports = {
                         loader: 'ts-loader',
                         options: {
                             configFile: path.resolve(__dirname, 'tsconfig.json'),
-
                         },
                     },
                 ],

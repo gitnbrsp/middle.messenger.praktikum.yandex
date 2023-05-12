@@ -9,14 +9,14 @@ export class AuthAPI extends BaseAPI {
         super('/auth')
     }
 
-    signup(data: SignupData): Promise<unknown> {
+    signup(data: SignupData): Promise<Record<string, unknown>> {
         return this.http.post('/signup', {
             headers: HEADERS.JSON,
             data: JSON.stringify(data)
         })
     }
 
-    signin(data: SigninData): Promise<unknown> {
+    signin(data: SigninData): Promise<Record<string, unknown>> {
         return this.http.post('/signin', {
             headers: HEADERS.JSON,
             data: JSON.stringify(data)
@@ -27,7 +27,7 @@ export class AuthAPI extends BaseAPI {
         return this.http.post('/logout')
     }
 
-    currentUser(): Promise<unknown> {
+    currentUser(): Promise<Record<string, unknown>> {
         return this.http.get('/user')
     }
 }
