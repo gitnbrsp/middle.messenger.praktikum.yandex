@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "./src",
     "target": "es2019",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -11,5 +12,6 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "strictNullChecks": true
-  }
+  },
+  "files": ["./src/global.d.ts"]
 }

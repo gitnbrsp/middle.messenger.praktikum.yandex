@@ -2,6 +2,7 @@ import styles from "./styles.css";
 import {Avatar} from "../Avatar";
 import {template} from "./template"
 import {Block} from "../../utils/Block";
+import {AccountDataProps, AvatarProps} from "../../interfaces/components";
 
 export class AccountData extends Block<AccountDataProps> {
     constructor(props: AccountDataProps) {
@@ -13,7 +14,7 @@ export class AccountData extends Block<AccountDataProps> {
         this.children.avatar = new Avatar({
             width: 70,
             height: 70,
-            imagePath: this.props?.imagePath,
+            imagePath: (this.props as Record<string, unknown>).imagePath,
         } as AvatarProps);
     }
 

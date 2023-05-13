@@ -1,0 +1,10 @@
+.github/
+.husky/
+.idea/
+.dist/
+.parcel-cache/
+node_modules/
+.src/**/*.js
+.src/**/*.test.ts
+.src/**/*.map
+.nyc_output/

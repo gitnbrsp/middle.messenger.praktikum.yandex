@@ -6,10 +6,8 @@ export class WS extends EventBus {
     private socket: WebSocket;
     private messages: string[] | [];
     private readonly chatId: number;
-    private readonly token: string;
-    private readonly userId: number;
 
-    constructor(userId, chatId, token) {
+    constructor(userId: number, chatId: number, token: string) {
         super();
 
         this.socket = new WebSocket(
@@ -19,8 +17,6 @@ export class WS extends EventBus {
         this.messages = [];
 
         this.chatId = chatId;
-        this.userId = userId;
-        this.token = token;
 
         this._addListeners();
         this._checkNewMessages();
@@ -77,19 +73,20 @@ export class WS extends EventBus {
                         this.messages = [...data, ...this.messages];
                     }
                     this.emit(EVENTS.NEW_MESSAGES, this.messages, this.chatId);
-                    console.log(data)
             }
         });
 
-        this.socket.addEventListener('error', event => {
+        //@ts-ignore
+        this.socket.addEventListener('error', (event: Record<string, unknown>) => {
             console.error('error', event.message);
         });
     }
 
-    public getMessages(): string[] | [] {
-        return this.messages
+    public getMessages() {
+        return this.messages as unknown
     }
 
+    // @ts-ignore
     public sendMessage(message): void {
         this.socket.send(message);
         setTimeout(()=>{

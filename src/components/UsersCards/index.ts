@@ -1,6 +1,7 @@
 import {Block} from "../../utils/Block";
 import styles from "./styles.css";
 import {template} from "./template"
+import {UsersCardsProps} from "../../interfaces/components";
 
 export class UsersCards extends Block<UsersCardsProps> {
     constructor(props: UsersCardsProps) {

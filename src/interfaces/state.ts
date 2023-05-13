@@ -1,4 +1,6 @@
-interface Chat {
+import {Message, User} from "./components";
+
+export interface Chat {
     id: number,
     unread_count?: number,
     last_message?: string,
@@ -9,7 +11,7 @@ interface Chat {
     text: string
 }
 
-interface State {
+export interface State {
     user: {
         user: User | null,
         isLoading: boolean,

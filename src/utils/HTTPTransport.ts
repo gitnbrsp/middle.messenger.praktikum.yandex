@@ -1,4 +1,6 @@
 import {METHODS, URLS} from "./Constants";
+type HTTPMethod = (url: string, options?: Record<string, unknown>) => Promise<Record<string, unknown>>;
+type Options = {method: string, data?: Record<string, unknown>, headers?: Record<string, string>};
 
 export default class HTTPTransport {
 
@@ -8,54 +10,51 @@ export default class HTTPTransport {
         this.BASE_URL+=additionalUrl;
     }
 
-    private _addParamsToUrl = (url:string, params:Record<string, string>) => {
-        //todo: check if non escaped spaces requred (' ' vs %20)
+    private _addParamsToUrl = (url: string, params?: any) => {
 
         const arr = [];
-        // const urlWParams:URL = new URL(url);
-
         for (const p in params) {
             arr.push(p+'='+params[p])
-            // urlWParams.searchParams.set(p, params[p]);
         }
 
-        return  (arr.length ? url+'?'+arr.join('&') : url) //urlWParams.href
+        return  (arr.length ? url+'?'+arr.join('&') : url)
     }
 
-    get = (url:string, options:Record<string, any> = {}) => {
-        return this._request(this._addParamsToUrl(url, options.user),
-    {...options, method: METHODS.GET}, options.timeout);
-    };
-
-    put = (url:string, options:object = {}) => {
+    get: HTTPMethod = (url, options = {}) => {
         return this._request(
-            url,
-            {...options, method: METHODS.PUT},
-            options.timeout
+            this._addParamsToUrl(url, options.user),
+    {...options, method: METHODS.GET}
         );
     };
 
-    post = (url:string, options:object = {}) => {
+    put: HTTPMethod = (url, options = {}) => {
         return this._request(
             url,
-            {...options, method: METHODS.POST},
-            options.timeout
+            {...options, method: METHODS.PUT}
         );
     };
 
-    delete = (url:string, options:object = {}) => {
+    post: HTTPMethod = (url, options = {}) => {
         return this._request(
             url,
-            {...options, method: METHODS.DELETE},
-            options.timeout
+            {...options, method: METHODS.POST}
         );
     };
 
-    private _request = (url:string, options:object, timeout = 5000):Promise<unknown> => {
+    delete: HTTPMethod = (url, options = {}) => {
+        return this._request(
+            url,
+            {...options, method: METHODS.DELETE}
+        );
+    };
+
+    private _request = (url: string, options: Options, timeout = 5000):
+        Promise<Record<string, unknown>> => {
+
         return new Promise((resolve, reject) => {
-            const data:unknown = options.data;
-            const method:string = options.method;
-            const headers:Record<string, string> = options.headers;
+            const data: unknown = options.data;
+            const method: string = options.method;
+            const headers: Record<string, string> = options.headers!;
             const xhr = new XMLHttpRequest();
 
             url = this.BASE_URL + url;
@@ -69,7 +68,7 @@ export default class HTTPTransport {
             xhr.timeout = timeout;
 
             xhr.onload=()=>{
-                resolve(xhr);
+                resolve(xhr as unknown as Record<string, unknown>);
             }
 
             xhr.onabort = reject;

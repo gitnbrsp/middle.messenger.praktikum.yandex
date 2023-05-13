@@ -51,13 +51,20 @@ export class ChatAPI extends BaseAPI {
         })
     }
 
-    deleteChatUsers(users, chatId) {
+    deleteChatUsers(users: number[], chatId: number) {
         return this.http.delete('/users', {
             headers: HEADERS.JSON,
             data: JSON.stringify({
                 users: users,
                 chatId: chatId
             })
+        })
+    }
+
+    uploadChatAvatar(fd: FormData) {
+        return this.http.put('/avatar', {
+            headers: HEADERS.JSON_GET,
+            data: fd
         })
     }
 
@@ -70,8 +77,6 @@ export class ChatAPI extends BaseAPI {
     // getCommonChat() {}
     //
     // getNewMessagesCount() {}
-    //
-    // uploadChatAvatar() {}
     //
     // requestToken() {}
 }

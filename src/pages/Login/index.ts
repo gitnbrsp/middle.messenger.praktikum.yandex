@@ -4,15 +4,16 @@ import {template} from "./template";
 import {indexPage, Link} from "../../components/Link";
 import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
-import {WarningMsg} from "../../components/WarningMsg";
 
 import {Block} from "../../utils/Block";
-import router from "../../utils/Router";
+import {router} from "../../utils/Router";
 import {ROUTES} from "../../utils/Constants";
 import {store, withUser} from "../../utils/Store";
 import {handleValidation} from "../../utils/Utils";
 
 import authController from "../../controllers/AuthController";
+import {ButtonProps, InputProps, LinkProps} from "../../interfaces/components";
+import {SignupData} from "../../interfaces/api";
 
 
 export class LoginClass extends Block {
@@ -38,7 +39,7 @@ export class LoginClass extends Block {
             name: "signButton",
             disabled: false,
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     this.submit(e);
                 }
             }
@@ -54,7 +55,6 @@ export class LoginClass extends Block {
         } as LinkProps);
 
         this.children.indexPage = indexPage;
-
         // this.children.warning = this.renderWarning();
     }
 
@@ -63,18 +63,17 @@ export class LoginClass extends Block {
         return true;
     }
 
-    private renderWarning():WarningMsg {
-        const state = store.getState().user;
-        const text = state.isLoading ? '' : state.errorMessage ? state.errorMessage : '';
-        return new WarningMsg({
-            text: text
-        } as WarningMsgProps)
-    }
+    // private renderWarning(): WarningMsg {
+    //     const state = store.getState().user;
+    //     const text = state.isLoading ? '' : state.errorMessage ? state.errorMessage : '';
+    //     return new WarningMsg({
+    //         text: text
+    //     } as WarningMsgProps)
+    // }
 
-    submit(e) {
-
+    submit(e: Event) {
         e.preventDefault();
-        const data = handleValidation(e) as SignupData;
+        const data = handleValidation(e) as unknown as SignupData;
 
         // If state has user - signin without request
         if (store.getState().user.user) {

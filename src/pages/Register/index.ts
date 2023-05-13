@@ -1,8 +1,9 @@
 import styles from "./styles.css";
 import {template} from "./template";
 
-import Router from "../../utils/Router";
 import {Block} from "../../utils/Block";
+import {router} from "../../utils/Router";
+import {ROUTES} from "../../utils/Constants";
 import {handleValidation} from "../../utils/Utils";
 
 import {Input} from "../../components/Input";
@@ -10,8 +11,8 @@ import {Button} from "../../components/Button";
 import {Link, indexPage} from "../../components/Link";
 
 import authController from "../../controllers/AuthController";
-import router from "../../utils/Router";
-import {ROUTES} from "../../utils/Constants";
+import {ButtonProps, InputProps, LinkProps} from "../../interfaces/components";
+import {SignupData} from "../../interfaces/api";
 
 
 export class Register extends Block {
@@ -62,7 +63,7 @@ export class Register extends Block {
             name: "signButton",
             disabled: false,
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     this.submit(e);
                 }
             }
@@ -72,7 +73,7 @@ export class Register extends Block {
             label: "назад",
             events: {
                 click: ()=>{
-                    Router.back();
+                    router.back();
                 }
             }
         } as LinkProps);
@@ -80,10 +81,10 @@ export class Register extends Block {
         this.children.indexPage = indexPage;
     }
 
-    submit(e) {
+    submit(e: Event) {
         const data = handleValidation(e);
         if (data){
-            authController.signup(data as SignupData)
+            authController.signup(data as unknown as SignupData)
                 .then(()=> router.go(ROUTES.Login))
                 .catch(e=>console.error(e));
         }

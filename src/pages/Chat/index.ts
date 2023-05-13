@@ -1,3 +1,4 @@
+// @ts-nocheck
 import styles from "./styles.css";
 import {template} from "./template";
 
@@ -10,19 +11,28 @@ import {WarningMsg} from "../../components/WarningMsg";
 import {AccountData} from "../../components/AccountData";
 import {MessageForm} from "../../components/MessageForm";
 
-import router from "../../utils/Router";
+import {router} from "../../utils/Router";
 import {Block} from "../../utils/Block";
+import {abbreviate} from "../../utils/Utils";
+import {store, withChats} from "../../utils/Store";
 import {ROUTES, STORE, URLS} from "../../utils/Constants";
 
-import {store, withChats} from "../../utils/Store";
 import WSController from "../../controllers/WSController";
 import authController from "../../controllers/AuthController";
 import chatController from "../../controllers/ChatController";
 import userController from "../../controllers/UserController";
 
+import {
+    ChatMenuProps, LinkProps,
+    MessageFormProps,
+    SearchProps,
+    UsersCardsProps
+} from "../../interfaces/components";
+import {Link} from "../../components/Link";
+
 
 class ChatClass extends Block {
-    constructor(props) {
+    constructor(props: Record<string, unknown>) {
         super({...props}, {});
     }
 
@@ -35,7 +45,6 @@ class ChatClass extends Block {
                     handleEnterSubmit(event);
                 },
                 submit: (event)=>{
-
                     event.preventDefault();
                     const formData = Object.fromEntries(new FormData(event.target));
 
@@ -78,6 +87,19 @@ class ChatClass extends Block {
                 }
             }
         } as SearchProps);
+        this.children.addChat =  new Link({
+            label: 'Add new chat',
+            events: {
+                click: ()=> {
+                    const result = prompt('Enter new chat name', 'New chat');
+                    if (result !== null) {
+                        chatController.createChat(result).then(()=>{
+                            chatController.fetchChats();
+                        })
+                    }
+                }
+            }
+        } as LinkProps);
 
         this.children.chatMenu =  new ChatMenu({
             title: '',
@@ -86,14 +108,18 @@ class ChatClass extends Block {
                 click: (event)=>{
                     const state = store.getState().messages;
                     switch (event.target.title) {
-                        case 'delete chat':
+                        case 'delete chat': {
                             deleteChat(state.activeChatId);
                             break;
-                        case 'add user':
+                        }
+
+                        case 'add user': {
                             document.querySelector('#add_user_modal')
-                            .style.visibility = "visible";
+                                .style.visibility = "visible";
                             break;
-                        case 'remove user':
+                        }
+
+                        case 'remove user': {
                             const users_ul = document.querySelector('#users_to_remove');
                             users_ul.innerHTML = '';
                             chatController.getChatUsers(state.activeChatId).then(res=>{
@@ -108,20 +134,28 @@ class ChatClass extends Block {
                             const remove = document.querySelector('#remove_user_modal')
                             remove.style.visibility = "visible";
                             break;
-                        case 'close chat':
+                        }
+
+                        case 'close chat': {
                             store.set('messages.messages', []);
                             store.set('messages.activeChatId', 0);
                             break;
-                        case 'info':
+                        }
+
+                        case 'info': {
                             getInfo(state.activeChatId);
                             break;
-                        case 'remove':
+                        }
+
+                        case 'remove': {
                             chatController.deleteChatUser([event.target.id],state.activeChatId)
-                                .then(res=>{
-                                console.log(res);
-                                event.target.remove();
-                                chatController.fetchChats();
-                            });
+                                .then(()=>{
+                                    event.target.remove();
+                                    chatController.fetchChats();
+                                });
+                            break;
+
+                        }
                     }
                 }
             }
@@ -151,10 +185,22 @@ class ChatClass extends Block {
         }
         else {
             state.chats.chats.forEach(chat=>{
-                if (store.getState().messages.activeChatId == chat.id){
+                if (store.getState().messages.activeChatId == chat.id) {
                     chat.selected = 'selected';
                 } else {
                     chat.selected = '';
+                }
+
+                if (chat.avatar) {
+                    chat.imagePath = URLS.RESOURCES + chat.avatar;
+                }
+
+                if (chat.last_message?.content) {
+                    chat.lastMessage = abbreviate(
+                        `${chat.last_message.user.display_name}: ${chat.last_message.content}`
+                    );
+                } else {
+                    chat.lastMessage = '---No messages yet---';
                 }
             })
             return new UsersCards({
@@ -260,8 +306,8 @@ class ChatClass extends Block {
                     store.set(STORE.MESSAGES, []);
                     store.set(STORE.ACTIVE_CHAT, 0);
                 } else {
-                    WSController.checkWS(li.id, state.user.user.id!).then((res)=>{
-                        this.renderMessages()
+                    WSController.checkWS(li.id, state.user.user.id).then(()=>{
+                        this.renderMessages();
                     });
                 }
             }
@@ -306,14 +352,28 @@ function clickUserCardPopup(event: Event): void {
         case 'info':
             getInfo(li.id);
             break;
-        default:
-            console.log(event.target.innerText);
+        case 'image': {
+            const tempImageFormData = new FormData();
+            const pictureInput = document.createElement('input');
+            pictureInput.type = 'file';
+            pictureInput.click();
+
+            pictureInput.addEventListener('change', ()=>{
+                tempImageFormData.append('avatar', pictureInput.files[0]);
+                tempImageFormData.append('chatId', li.id);
+                chatController.updateChatAvatar(tempImageFormData).then(()=>{
+                    chatController.fetchChats();
+                })
+            })
+
+            break;
+        }
     }
 }
 
 function deleteChat(id) {
-    const conf = confirm('Delete active chat?');
-    if (conf) {
+    const isConfirmed = confirm('Delete chat?');
+    if (isConfirmed) {
         if (id) {
             chatController.deleteChat(id);
         }
@@ -323,17 +383,8 @@ function deleteChat(id) {
 //todo modal
 function getInfo(id) {
     chatController.getChatUsers(id).then(res=>{
-        console.dir(res.response)
+        alert(JSON.stringify(res.response, null, 2))
     });
-}
-
-function abbreviate(text:string | undefined): string {
-    if (text?.length) {
-        return (text.length > 15) ? text.substring(0,13) + ' ...' : text;
-    }
-    else {
-        return 'field_empty';
-    }
 }
 
 export const Chat = withChats(ChatClass);

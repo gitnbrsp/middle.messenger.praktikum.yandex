@@ -5,6 +5,7 @@ import {Search} from "../Search";
 import userController from "../../controllers/UserController";
 import chatController from "../../controllers/ChatController";
 import {store} from "../../utils/Store";
+import {ChatMenuProps, SearchProps} from "../../interfaces/components";
 
 export class ChatMenu extends Block<ChatMenuProps> {
     constructor(props: ChatMenuProps) {
@@ -16,31 +17,30 @@ export class ChatMenu extends Block<ChatMenuProps> {
         this.children.search_add =  new Search({
             id: 'add_agent',
             events: {
-                input: (e)=>{
-                    userController.searchUser(e.target.value).then(res=>{
-                        console.log(res)
-                        const result = document.querySelector('#add_agent');
+                input: (e: Record<string, unknown>)=>{
+                    userController.searchUser((e.target as Record<string, string>).value)
+                        .then((res: Record<string, unknown>)=>{
+                        const result: HTMLElement =
+                            document.querySelector('#add_agent') as HTMLElement;
                         result.innerHTML = '';
-                        res.forEach(r=>{
-                            console.log(r)
+                        //@ts-ignore
+                        res.forEach((r: Record<string, unknown>)=>{
                             const li = document.createElement('li');
                             li.innerHTML = `${r.login}`;
                             li.classList.add('search_result');
-                            li.id = r.id;
+                            li.id = r.id as string;
                             li.addEventListener('click', ()=>{
-                                chatController.addChatUsers(
-                                    [r.id],
-                                    store.getState().messages.activeChatId)
-                                    .then(()=>{
-                                        console.log('chat created')
-                                    })
+                                //@ts-ignore
+                                chatController.addChatUsers([r.id],
+                                    //@ts-ignore
+                                    store.getState()?.messages.activeChatId)
                             })
-                            result.appendChild(li)
+                            result!.appendChild(li)
                         })
                     })
                 }
             }
-        } as SearchProps);
+        } as unknown as SearchProps);
     }
 
     render() {

@@ -2,7 +2,7 @@ import {template} from "./template";
 import styles from "./styles.css";
 
 import {Block} from "../../utils/Block";
-import router from "../../utils/Router";
+import {router} from "../../utils/Router";
 import {ROUTES} from "../../utils/Constants";
 import {handleValidation} from "../../utils/Utils";
 
@@ -11,6 +11,7 @@ import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
 import userController from "../../controllers/UserController";
 import authController from "../../controllers/AuthController";
+import {ButtonProps, InputProps, LinkProps} from "../../interfaces/components";
 
 
 export class Password extends Block {
@@ -42,7 +43,7 @@ export class Password extends Block {
             name: "signButton",
             disabled: false,
             events: {
-                click: (e) => {
+                click: (e: Event) => {
                     e.preventDefault();
                     const data = handleValidation(e);
                     if (data) {

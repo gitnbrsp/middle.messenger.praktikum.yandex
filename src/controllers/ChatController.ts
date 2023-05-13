@@ -18,8 +18,8 @@ class ChatController {
     getChats(offset: number, limit: number, title: string): Promise<unknown> {
         this.loading();
         return this.api.getChats(offset, limit, title)
-            .then(res=>{
-            if (res?.status === 200 || res.status === 304) {
+            .then((res: Record<string, unknown>)=>{
+            if (res.status === 200 || res.status === 304) {
                 store.set(STORE.CHATS_LOADING, false);
                 return res;
             } else {
@@ -30,7 +30,7 @@ class ChatController {
 
     fetchChats(): Promise<void> {
         this.loading();
-        return this.getChats(0,999, '').then((res) => {
+        return this.getChats(0,999, '').then((res: any) => {
                 if (res?.status < 401) {
                     store.set(STORE.CHATS, res.response);
                     store.set(STORE.CHATS_LOADING, false);
@@ -87,6 +87,12 @@ class ChatController {
             store.set(STORE.CHATS_ERROR, true);
             store.set(STORE.CHATS_ERROR_MESSAGE, `Failed get chat users, ID ${chatId}`);
         })
+    }
+
+    updateChatAvatar(fd: FormData): Promise<unknown> {
+        return this.api.uploadChatAvatar(fd).then(res=>{
+            return res
+        });
     }
 }
 
